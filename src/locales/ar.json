@@ -382,12 +382,12 @@
     "other": "أخرى",
     "processing": " جاري التنفيذ",
     "inWay": "جاري التوصيل",
+    "all": "الكل",
     "approved": "تم القبول",
     "new": "جديد",
     "confirmed": " تم تأكيد الطلب",
     "Processing_in_progress": "جاري التجهيز",
-    "awaiting_review": "انتظار المراجعة",
-    "all": "الكل"
+    "awaiting_review": "انتظار المراجعة"
   },
 
   "CHARTS": {
@@ -1077,7 +1077,6 @@
     "view_attachments": "عرض الملحقات",
     "add_new_attachment": "إضافة ملحق جديد",
 
-    "guidelines": "ارشادات",
     "introductory_video": "الفيديو التعريفي",
 
     "app_users_management": "إدارة مستخدمي التطبيق",

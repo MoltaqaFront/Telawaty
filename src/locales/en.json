@@ -377,19 +377,21 @@
     "notActive": "Not Active",
     "replied": "Replied",
     "notReplied": "Not Replied",
+
     "request": "Request",
     "suggestion": "Suggestion",
     "inquiry": "Inquiry",
     "complaint": "Complaint",
     "other": "Other",
+    "all": "All",
+
     "processing": "Processing",
     "inWay": "In Way",
     "approved": "Approved",
     "new": "New",
     "confirmed": "Confirmed",
     "Processing_in_progress": "Processing in Progress",
-    "awaiting_review": "Awaiting Review",
-    "all": "All"
+    "awaiting_review": "Awaiting Review"
   },
 
   "CHARTS": {

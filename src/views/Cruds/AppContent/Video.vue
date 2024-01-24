@@ -24,7 +24,7 @@
     </div>
     <!-- END:: Single Step Form Content -->
   </div>
-</template>
+</template> 
 
 <script>
 import UploadVideo from '../../../components/formInputs/UploadVideo.vue';
