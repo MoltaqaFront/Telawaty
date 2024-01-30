@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("PLACEHOLDERS.add_new_book") }}</h4>
+      <h4>{{ $t("PLACEHOLDERS.add_new_attachment") }}</h4>
     </div>
     <!-- End:: Title -->
 
@@ -11,26 +11,43 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
-          <!-- Start:: Upload File Input -->
-          <div class="col-12 upload_file">
-            <label for="fileInput">{{ $t('PLACEHOLDERS.file') }}</label>
-            <input ref="input_file" id="fileInput" type="file" @change="handleFileInputChange" accept=".pdf" />
+          <base-select-input col="12" v-if="all_surahsData" :optionsList="all_surahsData"
+            :placeholder="$t('PLACEHOLDERS.surah_name')" v-model.trim="data.select_surahs" />
 
-            <div v-if="uploadedFile" class="file_wrapper">
-              <!-- <pdf :src="pdfUrl" :page="1" :rotation="0" :scale="1.0"></pdf> -->
-              <div class="book_content position-relative">
-                <i class="fas fa-book book"></i>
-                <i class="fas fa-times clear" @click="deleteUploadedFile"></i>
-              </div>
-              <span class="name_book">{{ uploadedFile.name }}</span>
-            </div>
-          </div>
-          <!-- End:: Upload File Input -->
+          <!-- Start:: language_profile_arabic Input -->
+          <base-image-upload-input col="4" identifier="language_profile_arabic"
+            :preSelectedImage="data.language_profile_arabic.path"
+            :placeholder="$t('PLACEHOLDERS.language_profile_arabic')" @selectImage="selectImage" required />
+          <!-- End:: language_profile_arabic Input -->
 
-          <!-- Start:: Name Input -->
-          <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
-            @input="validateInput" required />
-          <!-- End:: Name Input -->
+          <!-- Start:: language_profile_english Input -->
+          <base-image-upload-input col="4" identifier="language_profile_english"
+            :placeholder="$t('PLACEHOLDERS.language_profile_english')" @selectImage="selectImage"
+            :preSelectedImage="data.language_profile_english.path" required />
+          <!-- End:: language_profile_english Input -->
+
+          <!-- Start:: language_profile_urdu Profile Image Input -->
+          <base-image-upload-input col="4" identifier="language_profile_urdu"
+            :placeholder="$t('PLACEHOLDERS.language_profile_urdu')" @selectImage="selectImage"
+            :preSelectedImage="data.language_profile_urdu.path" required />
+          <!-- End:: language_profile_urdu Profile Image Input -->
+
+          <!-- Start:: mind_map_arabic Image Input -->
+          <base-image-upload-input col="4" identifier="mind_map_arabic" :placeholder="$t('PLACEHOLDERS.mind_map_arabic')"
+            @selectImage="selectImage" :preSelectedImage="data.mind_map_arabic.path" required />
+          <!-- End:: mind_map_arabic Image Input -->
+
+          <!-- Start:: mind_map_english Image Input -->
+          <base-image-upload-input col="4" identifier="mind_map_english"
+            :placeholder="$t('PLACEHOLDERS.mind_map_english')" @selectImage="selectImage"
+            :preSelectedImage="data.mind_map_english.path" required />
+          <!-- End:: mind_map_english Image Input -->
+
+          <!-- Start:: mind_map_urdu Image Input -->
+          <base-image-upload-input col="4" identifier="mind_map_urdu" :placeholder="$t('PLACEHOLDERS.mind_map_urdu')"
+            @selectImage="selectImage" :preSelectedImage="data.mind_map_urdu.path" required />
+          <!-- End:: mind_map_urdu Image Input -->
+
 
           <!-- Start:: Deactivate Switch Input -->
           <div class="input_wrapper switch_wrapper my-5">
@@ -53,7 +70,8 @@
 </template>
 
 <script>
-import pdf from 'vue-pdf'
+
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "CreateState",
 
@@ -65,7 +83,33 @@ export default {
 
       // Start:: Data Collection To Send
       data: {
-        name: null,
+        language_profile_arabic: {
+          path: null,
+          file: null,
+        },
+        language_profile_english: {
+          path: null,
+          file: null,
+        },
+        language_profile_urdu: {
+          path: null,
+          file: null,
+        },
+        mind_map_arabic: {
+          path: null,
+          file: null,
+        },
+        mind_map_english: {
+          path: null,
+          file: null,
+        },
+        mind_map_urdu: {
+          path: null,
+          file: null,
+        },
+
+        all_surahsData: [],
+        select_surahs: null,
         active: null
       },
       uploadedFile: null,
@@ -73,27 +117,37 @@ export default {
     };
   },
 
-  components: {
-    pdf,
-  },
-
   computed: {
-    pdfUrl() {
-      return URL.createObjectURL(this.uploadedFile);
-    },
+
+    ...mapGetters({
+      getAppLocale: "AppLangModule/getAppLocale",
+      all_surahsData: "ApiGetsModule/all_surahsData",
+    }),
+
   },
 
   methods: {
 
-    handleFileInputChange(event) {
-      const file = event.target.files[0];
-      this.uploadedFile = file;
-    },
-    deleteUploadedFile() {
-      this.uploadedFile = null;
-      const fileInput = document.getElementById("fileInput");
-      if (fileInput) {
-        fileInput.value = "";
+    // Start:: Vuex Actions
+    ...mapActions({
+      getSurahs: "ApiGetsModule/getSurahs",
+    }),
+    // End:: Vuex Actions
+
+    selectImage(selectedImage) {
+      if (selectedImage.identifier === "language_profile_arabic") {
+        this.data.language_profile_arabic = selectedImage;
+        console.log(this.data.language_profile_arabic)
+      } else if (selectedImage.identifier === "language_profile_english") {
+        this.data.language_profile_english = selectedImage;
+      } else if (selectedImage.identifier === "language_profile_urdu") {
+        this.data.language_profile_urdu = selectedImage;
+      } else if (selectedImage.identifier === "mind_map_arabic") {
+        this.data.mind_map_arabic = selectedImage;
+      } else if (selectedImage.identifier === "mind_map_english") {
+        this.data.mind_map_english = selectedImage;
+      } else if (selectedImage.identifier === "mind_map_urdu") {
+        this.data.mind_map_urdu = selectedImage;
       }
     },
 
@@ -106,9 +160,9 @@ export default {
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-      if (!this.data.name) {
+      if (!this.data.select_surahs) {
         this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.name"));
+        this.$message.error(this.$t("VALIDATION.select_surah_name"));
         return;
       } else {
         this.submitForm();
@@ -121,34 +175,49 @@ export default {
     async submitForm() {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
-      // Append Uploaded File
-      if (this.uploadedFile) {
-        REQUEST_DATA.append("src", this.uploadedFile);
+
+      if (this.data.language_profile_arabic.file) {
+        REQUEST_DATA.append("card_id_image[ar]", this.data.language_profile_arabic.file);
       }
-      REQUEST_DATA.append("name", this.data.name);
+      if (this.data.language_profile_english.file) {
+        REQUEST_DATA.append("card_id_image[en]", this.data.language_profile_english.file);
+      }
+      if (this.data.language_profile_urdu.file) {
+        REQUEST_DATA.append("card_id_image[ad]", this.data.language_profile_urdu.file);
+      }
+      if (this.data.mind_map_arabic.file) {
+        REQUEST_DATA.append("plane_image[ar]", this.data.mind_map_arabic.file);
+      }
+      if (this.data.mind_map_english.file) {
+        REQUEST_DATA.append("plane_image[en]", this.data.mind_map_english.file);
+      }
+      if (this.data.mind_map_urdu.file) {
+        REQUEST_DATA.append("plane_image[ad]", this.data.mind_map_urdu.file);
+      }
+
       REQUEST_DATA.append("is_active", +this.data.active);
+      REQUEST_DATA.append("_method", "PUT");
       // Start:: Append Request Data
 
       try {
         await this.$axios({
           method: "POST",
-          url: `books`,
+          url: `addition_surahs/${this.data.select_surahs?.id}`,
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
         this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
-        this.$router.push({ path: "/books/all" });
+        this.$router.push({ path: "/addition-surah/all" });
       } catch (error) {
         this.isWaitingRequest = false;
         this.$message.error(error.response.data.message);
       }
     },
     // End:: Submit Form
-
-
   },
 
   created() {
+    this.getSurahs()
   },
 };
 </script>

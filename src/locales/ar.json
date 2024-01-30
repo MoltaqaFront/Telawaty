@@ -1085,7 +1085,27 @@
     "paid_version": "نسخة مدفوعة",
     "country_code": "كود الدولة",
     "mobile_number": "رقم الجوال",
-    "subscription_date": "تاريخ الإشتراك"
+    "subscription_date": "تاريخ الإشتراك",
+
+    "manage_recitation_correction": "إدارة تصحيح التلاوة",
+    "word": "الكلمة",
+    "verse_number": "رقم الآية",
+    "coloring": "تلوين",
+    "character": "الحرف",
+    "color_list": "قائمة الألوان",
+    "red_color": "اللون الأحمر",
+    "green_color": "اللون الأخضر",
+    "add_new_content": "إضافة محتوى جديد",
+    "view_data": "عرض البيانات",
+    "edit_content": "تعديل المحتوى",
+
+    "language_profile_arabic": "البطاقة التعريفية للغة العربية",
+    "language_profile_english": "البطاقة التعريفية للغة الانجليزية",
+    "language_profile_urdu": "البطاقة التعريفية للغة بالأردية",
+
+    "mind_map_arabic": "الخريطة الذهنية للغة العربية",
+    "mind_map_english": "الخريطة الذهنية للغة الانجليزية",
+    "mind_map_urdu": "الخريطة الذهنية للغة بالأردية"
   },
 
   "VALIDATION": {
@@ -1146,7 +1166,9 @@
     "trial_duration_not_empty": "حقل مدة النسخة التجريبية (يوم) لا يمكن أن يكون فارغ",
     "available_chapters_not_empty": "حقل السور المتاحة لمستخدمي النسخة التجريبية لا يمكن أن يكون فارغ",
     "trial_repetition_not_empty": "حقل عدد مرات تكرار النسخة التجريبية لا يمكن أن يكون فارغ",
-    "upload_introductory_video": "يجب رفع فيديو تعريفي"
+    "upload_introductory_video": "يجب رفع فيديو تعريفي",
+
+    "select_surah_name": "يجب اختيار اسم السورة"
   },
 
   "MESSAGES": {

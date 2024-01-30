@@ -55,6 +55,19 @@
       </div>
       <!-- End:: AdditionSurah Route -->
 
+      <!-- Start:: Correction_readings Route -->
+      <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('correctionReading index', 'correctionReading')">
+        <router-link to="/correction-reading/all">
+          <span class="route_icon">
+            <img src="@/assets/media/icons/ui_icons/like.png" alt="icon" width="40" height="40" />
+          </span>
+          <span class="route_text">
+            {{ $t("PLACEHOLDERS.manage_recitation_correction") }}
+          </span>
+        </router-link>
+      </div>
+      <!-- End:: Correction_readings Route -->
+
       <!-- Start:: books Route -->
       <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('books index', 'books')">
         <router-link to="/books/all">

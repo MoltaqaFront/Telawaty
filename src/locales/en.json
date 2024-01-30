@@ -1069,9 +1069,26 @@
     "edit_attachments": "Edit Attachments",
     "view_attachments": "View Attachments",
     "add_new_attachment": "Add New Attachment",
+    "introductory_video": "Introductory Video",
 
-    "guidelines": "Guidelines",
-    "introductory_video": "Introductory Video"
+    "manage_recitation_correction": "Manage Recitation Correction",
+    "word": "Word",
+    "verse_number": "Verse Number",
+    "coloring": "Coloring",
+    "character": "Character",
+    "color_list": "Color List",
+    "red_color": "Red Color",
+    "green_color": "Green Color",
+    "add_new_content": "Add New Content",
+    "view_data": "View Data",
+    "edit_content": "Edit Content",
+
+    "language_profile_arabic": "Language Profile - Arabic",
+    "language_profile_english": "Language Profile - English",
+    "language_profile_urdu": "Language Profile - Urdu",
+    "mind_map_arabic": "Mind Map - Arabic",
+    "mind_map_english": "Mind Map - English",
+    "mind_map_urdu": "Mind Map - Urdu"
   },
 
   "VALIDATION": {
@@ -1141,7 +1158,8 @@
     "paid_version": "Paid Version",
     "country_code": "Country Code",
     "mobile_number": "Mobile Number",
-    "subscription_date": "Subscription Date"
+    "subscription_date": "Subscription Date",
+    "select_surah_name": "Select Surah Name"
   },
 
   "MESSAGES": {

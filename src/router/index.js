@@ -67,6 +67,14 @@ import EditAdditionSurah from "../views/Cruds/AdditionSurah/Edit.vue";
 import ShowAdditionSurah from "../views/Cruds/AdditionSurah/Show.vue";
 // ============== End:: AdditionSurah Routes
 
+// ============== Start:: CorrectionReadings Routes
+import CorrectionReadingsHome from "../views/Cruds/CorrectionReadings/Home.vue";
+import AllCorrectionReadings from "../views/Cruds/CorrectionReadings/ShowAll.vue";
+import CreateCorrectionReadings from "../views/Cruds/CorrectionReadings/Create.vue";
+import EditCorrectionReadings from "../views/Cruds/CorrectionReadings/Edit.vue";
+import ShowCorrectionReadings from "../views/Cruds/CorrectionReadings/Show.vue";
+// ============== End:: CorrectionReadings Routes
+
 // ============== Start:: Books Routes
 import BooksHome from "../views/Cruds/Books/Home.vue";
 import AllBooks from "../views/Cruds/Books/ShowAll.vue";
@@ -339,6 +347,69 @@ const routes = [
         ],
       },
       // End:: AdditionSurah Routes Config
+
+      // Start:: AdditionSurah Routes Config
+      {
+        path: "/correction-reading",
+        name: "CorrectionReadingsHome",
+        component: CorrectionReadingsHome,
+        meta: {
+          middleware: [auth],
+        },
+        children: [
+          {
+            path: "all",
+            name: "AllCorrectionReadings",
+            component: AllCorrectionReadings,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "correctionReading index",
+                subject: "correctionReading",
+              },
+            },
+          },
+          {
+            path: "create",
+            name: "CreateCorrectionReadings",
+            component: CreateCorrectionReadings,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "correctionReading create",
+                subject: "correctionReading",
+              },
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditCorrectionReadings",
+            component: EditCorrectionReadings,
+            props: true,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "correctionReading edit",
+                subject: "correctionReading",
+              },
+            },
+          },
+          {
+            path: "show/:id",
+            name: "ShowCorrectionReadings",
+            component: ShowCorrectionReadings,
+            props: true,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "correctionReading show",
+                subject: "correctionReading",
+              },
+            },
+          },
+        ],
+      },
+      // End:: AdditionSurah Routes Configs
 
       // Start:: readers Routes Config
       {
