@@ -1,53 +1,94 @@
 <template>
-  <div class="crud_form_wrapper">
-    <!-- Start:: Title -->
-    <div class="form_title_wrapper">
-      <h4>{{ $t("TITLES.showNotification") }}</h4>
-    </div>
-    <!-- End:: Title -->
+  <div class="show_all_content_wrapper">
 
     <!-- Start:: Single Step Form Content -->
     <div class="single_step_form_content_wrapper">
-      <form @submit.prevent="validateFormInputs">
-        <div class="row justify-content-center">
-          <!-- Start:: Receiver Type Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.receiverType')" v-model.trim="data.sender_type"
-            required readonly />
-          <!-- End:: Receiver Type Input -->
+      <form>
 
-          <!-- Start:: Clients Type Input -->
+        <transition-group name="fade" v-if="receivedMessages.length">
+          <div class="notification" v-for="(message, index) in receivedMessages" :key="'k' + index">
 
-          <!-- <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.clients')" v-model.trim="data.clients"
-            required /> -->
-          <!-- End:: Clients Type Input -->
+            <!-- start :: rate -->
+            <router-link v-if="message.data.type == 'rate'" :to="'/rates/all'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
 
+              <!-- @click="DeleteNotification(message.id)" -->
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End :: rate -->
 
-          <div class="col-12">
-            <div class="row">
-              <!-- Start:: Title Ar Input -->
-              <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.titleAr')" v-model.trim="data.titleAr"
-                required readonly />
-              <!-- End:: Title Ar Input -->
+            <!-- start :: contact -->
+            <router-link v-if="message.data.type == 'contact'" :to="'/contact-messages/all'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
 
-              <!-- Start:: Title En Input -->
-              <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.titleEn')" v-model.trim="data.titleEn"
-                required readonly />
-              <!-- End:: Title En Input -->
+              <!-- @click="DeleteNotification(message.id)" -->
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End :: contact -->
 
-              <!-- Start:: Content Ar Input -->
-              <base-input col="6" rows="7" type="textarea" :placeholder="$t('PLACEHOLDERS.contentAr')"
-                v-model.trim="data.contentAr" required readonly />
-              <!-- End:: Content Ar Input -->
+            <!-- start :: users -->
+            <router-link v-if="message.data.type == 'users'" :to="'/clients/all'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
 
-              <!-- Start:: Content En Input -->
-              <base-input col="6" rows="7" type="textarea" :placeholder="$t('PLACEHOLDERS.contentEn')"
-                v-model.trim="data.contentEn" required readonly />
-              <!-- End:: Content En Input -->
+              <!-- @click="DeleteNotification(message.id)" -->
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End :: users -->
+
+            <!-- start :: advertisement -->
+            <router-link v-if="message.data.type == 'advertisement'" :to="'/advertisements/all'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
+
+              <!-- @click="DeleteNotification(message.id)" -->
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End :: advertisement -->
+
+            <!-- start :: subscription -->
+            <!-- <router-link  :to="'chat/show/' + message.data.id"> -->
+            <div v-if="message.data.type == 'subscription'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
             </div>
+            <!-- </router-link> -->
+            <!-- End :: subscription -->
+
           </div>
 
-          <!-- End:: Submit Button Wrapper -->
-        </div>
+        </transition-group>
+
+        <p class="text-danger text-center text--darken-4 pt-5 pb-5" v-else>{{ $t('PLACEHOLDERS.no_notifications') }}</p>
+
+        <!-- Start:: Pagination -->
+        <template>
+          <div class="pagination_container text-center mt-3 mb-0">
+            <v-pagination class="py-0" square v-model="paginations.current_page" :length="paginations.last_page"
+              :total-visible="6" @input="updateRouterQueryParam($event)" :prev-icon="getAppLocale == 'ar' ? 'fal fa-angle-right' : 'fal fa-angle-left'
+                " :next-icon="getAppLocale == 'ar' ? 'fal fa-angle-left' : 'fal fa-angle-right'" />
+          </div>
+        </template>
+        <!-- End:: Pagination -->
+
       </form>
     </div>
     <!-- END:: Single Step Form Content -->
@@ -56,38 +97,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
 export default {
-  name: "CreateNotification",
-
-  computed: {
-    // Start:: Vuex Getters
-    ...mapGetters({
-      allClientsData: "ApiGetsModule/allClientsData",
-      allDriversData: "ApiGetsModule/allDriversData",
-    }),
-    // End:: Vuex Getters
-
-    receiverTypes() {
-      return [
-        {
-          id: 1,
-          name: this.$t("PLACEHOLDERS.clients"),
-          value: "clients",
-        },
-        {
-          id: 2,
-          name: this.$t("PLACEHOLDERS.drivers"),
-          value: "drivers",
-        },
-        {
-          id: 3,
-          name: this.$t("PLACEHOLDERS.both"),
-          value: "both",
-        },
-      ];
-    },
-  },
+  name: "CreateContact",
 
   data() {
     return {
@@ -95,63 +106,176 @@ export default {
       isWaitingRequest: false,
       // End:: Loader Control Data
 
-      // Start:: Data Collection To Send
-      // data: {
-      //   receiverType: {
-      //     id: 1,
-      //     name: this.$t("PLACEHOLDERS.clients"),
-      //     value: "clients",
-      //   },
+      receivedMessages: [],
+      notificationCount: null,
 
-      // },
+      // Start:: Pagination Data
+      paginations: {
+        current_page: 1,
+        last_page: 1,
+        items_per_page: 6,
+      },
+      // End:: Pagination Data
 
-      data: {
-        sender_type: null,
-        drivers: null,
-        titleAr: null,
-        titleEn: null,
-        contentAr: null,
-        contentEn: null,
-      }
-      // End:: Data Collection To Send
     };
   },
 
-  methods: {
-    // Start:: Vuex Actions
-    ...mapActions({
-      getClients: "ApiGetsModule/getClients",
-      getDrivers: "ApiGetsModule/getDrivers",
+  computed: {
+    ...mapGetters({
+      getAppLocale: "AppLangModule/getAppLocale",
+      notificationsData: "NotificationsModule/notificationsData",
     }),
-    // End:: Vuex Actions
+  },
 
-    // get notification with id
-    async getNotificationData() {
+  watch: {
+    // Start:: Page Query Param Watcher To Get Page Data Based On It's Change
+    ["$route.query.page"]() {
+      this.paginations.current_page = +this.$route.query.page;
+      this.getData();
+    },
+    // End:: Page Query Param Watcher To Get Page Data Based On It's Change
+  },
+
+  methods: {
+
+    ...mapActions({
+      readAllNotifications: "NotificationsModule/readAllNotifications",
+    }),
+
+    async getData() {
       try {
         let res = await this.$axios({
           method: "GET",
-          url: `main/show-send-notification?notification_id=${this.$route.params.id}`
+          url: "notification/index",
+          params: {
+            page: this.paginations.current_page
+          },
         });
-
-
-        console.log(res.data.data)
-        this.data.sender_type = res.data.data.sender_type;
-        this.data.titleAr = res.data.data.title_ar;
-        this.data.titleEn = res.data.data.title_en;
-        this.data.contentAr = res.data.data.content_ar;
-        this.data.contentEn = res.data.data.content_en;
+        console.log("All Data ==>", res.data.data);
+        this.receivedMessages = res.data.data;
+        this.paginations.last_page = res.data.data.meta.last_page;
+        this.paginations.items_per_page = res.data.data.meta.per_page;
 
       } catch (error) {
         this.loading = false;
         console.log(error.response.data.message);
       }
     },
+    async NotificationsReaded(item_id) {
+      try {
+        let res = await this.$axios({
+          method: "POST",
+          url: `notification/mark-as-read`,
+          params: {
+            "notification_id": item_id
+          }
+        });
+        // this.$message.success(res.data.message);
+        this.readAllNotifications();
+        this.notificationsData.unreadNotifications--;
+        // console.log("notificationsData.unreadNotifications", this.notificationsData.unreadNotifications)
+        this.getData();
+      } catch (error) {
+        this.dialogDelete = false;
+        this.$message.error(error.response.data.errors);
+      }
+    },
+
+    async DeleteNotification(item_id) {
+      try {
+        let res = await this.$axios({
+          method: "DELETE",
+          url: `notifications/${item_id}`
+        });
+        this.$message.success(res.data.message);
+        this.getData();
+      } catch (error) {
+        this.dialogDelete = false;
+        this.$message.error(error.response.data.errors);
+      }
+    },
+
+    updateRouterQueryParam(pagenationValue) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pagenationValue,
+        },
+      });
+
+      // Scroll To Screen's Top After Get Products
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    },
+
+
   },
 
   created() {
-    // Start:: Fire Methods
-    this.getNotificationData()
-    // End:: Fire Methods
+    this.getData();
+
+    navigator.serviceWorker.addEventListener('message', event => {
+      const receivedMessage = event.data.data;
+      receivedMessage.read = false;
+
+      this.receivedMessages.unshift(receivedMessage);
+
+      console.log(event.data.data)
+      // console.log("receivedMessage", event)
+      // Update component state or display the received message in the UI
+    });
+
+    if (this.$route.query.page) {
+      this.paginations.current_page = +this.$route.query.page;
+    }
+
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0;
+}
+
+.notification {
+  background: #000;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+
+  .delete_notification {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+
+    &.read {
+      i {
+        color: #49a956;
+      }
+    }
+
+    i {
+      font-size: 20px;
+      color: #DDD
+    }
+
+  }
+}
+
+.text-danger {
+  font-size: 22px
+}
+</style>

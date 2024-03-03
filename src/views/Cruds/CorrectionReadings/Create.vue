@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("PLACEHOLDERS.add_new_book") }}</h4>
+      <h4>{{ $t("PLACEHOLDERS.add_new_content") }}</h4>
     </div>
     <!-- End:: Title -->
 
@@ -11,43 +11,71 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
-          <base-select-input col="3" v-if="all_surahsData" :optionsList="all_surahsData"
+          <base-select-input col="6" v-if="all_surahsData" :optionsList="all_surahsData"
             :placeholder="$t('PLACEHOLDERS.surah_name')" v-model.trim="data.select_surahs" @input="getVerseNumbers" />
 
-          <base-select-input col="3" v-if="all_surahsData && data.select_surahs && data.verseNumbers"
-            :optionsList="data.verseNumbers" :placeholder="$t('PLACEHOLDERS.surah_name')"
-            v-model.trim="data.verse_number" @input="get" />
+          <base-select-input col="6" v-if="all_surahsData && data.select_surahs" :label="'aya_no'"
+            :optionsList="data.verseNumbers" :placeholder="$t('PLACEHOLDERS.verse_number')"
+            v-model.trim="data.verse_number" @input="getWords" />
 
-          <base-select-input col="3" v-if="all_surahsData" :optionsList="data.words"
-            :placeholder="$t('PLACEHOLDERS.surah_name')" v-model.trim="data.word" />
+          <div v-if="all_surahsData && data.select_surahs && data.verseNumbers && data.verse_number">
 
-          <!-- Start:: Upload File Input -->
-          <div class="col-12 upload_file">
-            <label for="fileInput">{{ $t('PLACEHOLDERS.file') }}</label>
-            <input ref="input_file" id="fileInput" type="file" @change="handleFileInputChange" accept=".pdf" />
+            <div v-for="(word, wordIndex) in words" :key="wordIndex">
 
-            <div v-if="uploadedFile" class="file_wrapper">
-              <!-- <pdf :src="pdfUrl" :page="1" :rotation="0" :scale="1.0"></pdf> -->
-              <div class="book_content position-relative">
-                <i class="fas fa-book book"></i>
-                <i class="fas fa-times clear" @click="deleteUploadedFile"></i>
+              <div class="btn_wrapper d-flex justify-content-center">
+                <button type="button" @click="addWord(wordIndex)">{{ $t('PLACEHOLDERS.add_word') }}</button>
               </div>
-              <span class="name_book">{{ uploadedFile.name }}</span>
+
+              <div class="row align-items-center">
+
+                <!-- @input="getLetters(wordIndex)" -->
+                <base-select-input class="col-lg-4 col-12" :optionsList="data.ayah_words"
+                  :placeholder="$t('PLACEHOLDERS.word')" v-model.trim="words[wordIndex].word_id" />
+
+                <div class="col-lg-4 col-12">
+                  <div class="upload_file position-relative">
+                    <label :for="'fileInput_' + wordIndex">{{ $t('PLACEHOLDERS.file') }}</label>
+                    <input type="file" :id="'fileInput_' + wordIndex" @change="onVoiceFileChange(wordIndex)" />
+                    <span v-if="word.voice">
+                      {{ word.voice.name }}
+                      <button class="clear" @click="removeVoice(wordIndex)">&#10006;</button>
+                    </span>
+                  </div>
+                </div>
+
+                <base-select-input class="col-lg-4 col-12" :optionsList="coloring"
+                  :placeholder="$t('PLACEHOLDERS.coloring')" v-model.trim="word.word_color" />
+
+              </div>
+
+              <div v-for="(letter, letterIndex) in word.letters_array" :key="letterIndex">
+                <div class="row">
+                  <!-- Letter ID: -->
+                  <base-select-input class="col-lg-6 col-12" :optionsList="letter.letters"
+                    :placeholder="$t('PLACEHOLDERS.character')" v-model.trim="letter.letter_id" />
+                  <!-- Letter Color: -->
+                  <base-select-input class="col-lg-6 col-12" :optionsList="coloring"
+                    :placeholder="$t('PLACEHOLDERS.coloring')" v-model.trim="letter.letter_color" />
+
+                  <div class="delete d-flex justify-content-center">
+                    <button type="button" @click="removeLetter(wordIndex, letterIndex)">{{
+                      $t('PLACEHOLDERS.delete_letter') }}</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="btn_wrapper d-flex justify-content-start">
+                <button type="button" @click="addLetter(wordIndex)">{{
+                  $t('PLACEHOLDERS.add_letter') }}</button>
+              </div>
+
+              <div class="delete  d-flex justify-content-end" v-if="words.length > 1">
+                <button type="button" @click="removeWord(wordIndex)">{{
+                  $t('PLACEHOLDERS.delete_word') }}</button>
+              </div>
             </div>
-          </div>
-          <!-- End:: Upload File Input -->
 
-          <!-- Start:: Name Input -->
-          <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
-            @input="validateInput" required />
-          <!-- End:: Name Input -->
-
-          <!-- Start:: Deactivate Switch Input -->
-          <div class="input_wrapper switch_wrapper my-5">
-            <v-switch color="green" :label="data.active ? $t('PLACEHOLDERS.active') : $t('PLACEHOLDERS.notActive')"
-              v-model="data.active" hide-details></v-switch>
           </div>
-          <!-- End:: Deactivate Switch Input -->
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
@@ -80,12 +108,29 @@ export default {
         select_surahs: null,
         verseNumbers: [],
         verse_number: null,
-        words: [],
+        ayah_words: [],
+        letters: [],
         word: null,
         name: null,
         active: null
       },
-      uploadedFile: null,
+
+      words: [
+        {
+          word_id: '',
+          voice: '',
+          word_color: '',
+          letters_array: [
+            // {  
+            //   letters: [],
+            //   letter_id: '',
+            //   letter_color: ''
+            // }
+          ]
+        }
+      ],
+
+      selectedWords: []
       // End:: Data Collection To Send
     };
   },
@@ -101,12 +146,12 @@ export default {
       return [
         {
           id: 0,
-          name: this.$t('red_color'),
+          name: this.$t('PLACEHOLDERS.red_color'),
           value: 'red'
         },
         {
           id: 1,
-          name: this.$t('green_color'),
+          name: this.$t('PLACEHOLDERS.green_color'),
           value: 'green'
         }
       ]
@@ -121,30 +166,77 @@ export default {
     }),
     // End:: Vuex Actions
 
-    handleFileInputChange(event) {
-      const file = event.target.files[0];
-      this.uploadedFile = file;
+    addWord(wordIndex) {
+      const selectedWord = this.words[wordIndex].word_id.id;
+
+      // Remove the selected word from the optionsList
+      this.data.ayah_words = this.data.ayah_words.filter(word => word.id !== selectedWord);
+
+      this.words.push({
+        word_id: `word_${this.words.length + 1}`,
+        voice: '',
+        word_color: '',
+        letters_array: []
+      });
     },
-    deleteUploadedFile() {
-      this.uploadedFile = null;
-      const fileInput = document.getElementById("fileInput");
-      if (fileInput) {
-        fileInput.value = "";
+
+    removeWord(index) {
+      this.words.splice(index, 1);
+    },
+
+    async addLetter(wordIndex) {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `words-ayats/${this.data.select_surahs.id}/${this.data.verse_number.aya_no}/${this.words[wordIndex].word_id.id}`,
+        });
+
+        // Get the selected letter IDs for the current word
+        const selectedLetterIds = this.words[wordIndex].letters_array.map(letter => letter.letter_id.id);
+
+        // Filter out the new letters that have not been selected before
+        const newLetters = res.data.filter(letter => !selectedLetterIds.includes(letter.id));
+
+        // console.log("selectedLetterIds", selectedLetterIds)
+        // console.log("newLetters", newLetters)
+
+        // Add the new letters to the letters_array
+        this.words[wordIndex].letters_array.push({
+          letters: newLetters,
+          letter_id: '', // Assuming you set the letter_id elsewhere
+          letter_color: '' // Assuming you set the letter_color elsewhere
+        });
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
       }
     },
 
-    validateInput() {
-      // Remove non-Arabic characters from the input
-      this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
+    removeLetter(wordIndex, letterIndex) {
+      this.words[wordIndex].letters_array.splice(letterIndex, 1);
     },
 
+    onVoiceFileChange(wordIndex) {
+      const file = event.target.files[0];
+      this.words[wordIndex].voice = file;
+    },
+
+    removeVoice(wordIndex) {
+      this.words[wordIndex].voice = null;
+
+      // Clear the file input value
+      const fileInput = document.getElementById(`fileInput_${wordIndex}`);
+      if (fileInput) {
+        fileInput.value = '';
+      }
+    },
     // Start:: validate Form Inputs
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-      if (!this.data.name) {
+      if (!this.data.select_surahs) {
         this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.name"));
+        this.$message.error(this.$t("VALIDATION.select_surah_name"));
         return;
       } else {
         this.submitForm();
@@ -156,24 +248,50 @@ export default {
     // Start:: Submit Form
     async submitForm() {
       const REQUEST_DATA = new FormData();
-      // Start:: Append Request Data
       // Append Uploaded File
-      if (this.uploadedFile) {
-        REQUEST_DATA.append("src", this.uploadedFile);
-      }
-      REQUEST_DATA.append("name", this.data.name);
-      REQUEST_DATA.append("is_active", +this.data.active);
+      REQUEST_DATA.append("surah_id", this.data.select_surahs?.id);
+      REQUEST_DATA.append("aya_id", this.data.verse_number?.aya_no);
+
+      let letterIndex = 0; // Track overall letter index
+
+      this.words.forEach((word, wordIndex) => {
+        // start:: word data
+        if (this.words[wordIndex].word_id.id !== null) {
+          REQUEST_DATA.append(`words[${wordIndex}][id]`, this.words[wordIndex].word_id.id);
+        }
+        if (word.voice) {
+          REQUEST_DATA.append(`words[${wordIndex}][voice]`, word.voice);
+        }
+        if (word.word_color?.value) {
+          REQUEST_DATA.append(`words[${wordIndex}][color]`, word.word_color.value);
+        }
+        // end:: word data
+
+        // start:: letter data
+        if (word.letters_array) {
+          word.letters_array.forEach((letter, letterIndexWithinWord) => {
+            REQUEST_DATA.append(`letters[${letterIndex}][word_id]`, this.words[wordIndex].word_id.id);
+            REQUEST_DATA.append(`letters[${letterIndex}][letter_id]`, +letter.letter_id?.id);
+            if (letter.letter_color?.value) {
+              REQUEST_DATA.append(`letters[${letterIndex}][color]`, letter.letter_color.value);
+            }
+            letterIndex++; // Increment overall letter index
+          });
+        }
+        // end:: letter data
+      });
+
       // Start:: Append Request Data
 
       try {
         await this.$axios({
           method: "POST",
-          url: `books`,
+          url: `correction-reading`,
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
         this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
-        this.$router.push({ path: "/books/all" });
+        this.$router.push({ path: "/correction-reading/all" });
       } catch (error) {
         this.isWaitingRequest = false;
         this.$message.error(error.response.data.message);
@@ -181,19 +299,41 @@ export default {
     },
     // End:: Submit Form
 
-
     async getVerseNumbers() {
       try {
+        this.data.verseNumbers = [];
+        this.data.verse_number = null;
         let res = await this.$axios({
           method: "GET",
           url: `words-ayats/${this.data.select_surahs.id}`,
         });
-        this.data.verseNumbers = res.data.data;
+        this.data.verseNumbers = res.data;
       } catch (error) {
         this.loading = false;
         console.log(error.response.data.message);
       }
-    }
+    },
+
+    async getWords() {
+      this.data.ayah_words = [];
+
+      // this.words.forEach((word, wordIndex) => {
+      //   this.words[wordIndex].word_id.id = null;
+      // })
+
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `words-ayats/${this.data.select_surahs.id}/${this.data.verse_number.aya_no}`,
+        });
+        this.data.ayah_words = res.data;
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
+      }
+    },
+
+
   },
 
   created() {
@@ -204,6 +344,19 @@ export default {
 
 
 <style lang="scss" scoped>
+.delete {
+  button {
+    min-width: 200px;
+    height: 48px;
+    color: #FFF;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #a85353;
+  }
+}
+
 .upload_file {
 
   .book_content {
@@ -216,10 +369,9 @@ export default {
 
   .clear {
     position: absolute;
-    top: 0;
+    bottom: -2px;
     left: 0;
-    font-size: 15px;
-    background: red;
+    background: #a85353;
     border-radius: 50%;
     width: 20px;
     height: 20px;

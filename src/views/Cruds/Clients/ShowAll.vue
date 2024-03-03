@@ -18,7 +18,7 @@
               <!-- End:: Name Input -->
 
               <!-- Start:: Phone Input -->
-              <base-input col="3" type="tel" :placeholder="$t('PLACEHOLDERS.phone')" v-model.trim="filterOptions.phone" />
+              <base-input col="2" type="tel" :placeholder="$t('PLACEHOLDERS.phone')" v-model.trim="filterOptions.phone" />
               <!-- End:: Phone Input -->
 
               <!-- Start:: email Input -->
@@ -27,11 +27,15 @@
               <!-- End:: email Input -->
 
               <!-- Start:: Status Input -->
+              <base-select-input col="2" :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
+                v-model="filterOptions.iso" />
+              <!-- End:: Status Input -->
+
+              <!-- Start:: Status Input -->
               <base-select-input col="3" :optionsList="activeStatuses" :placeholder="$t('PLACEHOLDERS.app_status')"
                 v-model="filterOptions.isActive" />
               <!-- End:: Status Input -->
             </div>
-
 
 
             <div class="btns_wrapper">
@@ -256,12 +260,12 @@ export default {
       return [
         {
           id: 1,
-          name: this.$t("STATUS.trial_version"),
+          name: this.$t("PLACEHOLDERS.trial_version"),
           value: 1,
         },
         {
           id: 2,
-          name: this.$t("STATUS.notActive"),
+          name: this.$t("PLACEHOLDERS.paid_version"),
           value: 0,
         },
         {
@@ -286,6 +290,7 @@ export default {
         name: null,
         phone: null,
         email: null,
+        iso: null,
         isActive: null,
       },
       // End:: Filter Data
@@ -324,12 +329,12 @@ export default {
           align: "center",
           sortable: false,
         },
-        // {
-        //   text: this.$t("PLACEHOLDERS.registration_otp_status"),
-        //   value: "is_verified",
-        //   align: "center",
-        //   sortable: false,
-        // },
+        {
+          text: this.$t("PLACEHOLDERS.app_status"),
+          value: "app_status",
+          align: "center",
+          sortable: false,
+        },
         {
           text: this.$t("TABLES.Clients.active"),
           value: "is_active",
@@ -361,6 +366,8 @@ export default {
 
       dialogBalance: false,
       itemToBalance: null,
+
+      AllIso: []
 
     };
   },
@@ -515,6 +522,19 @@ export default {
       }
     },
     // ==================== End:: Crud ====================
+
+    async getIso() {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `countries`,
+        });
+        this.AllIso = res.data.data.map(item => ({ "id": item.code, "name": `${item.name} ${item.dialling_code}` }));
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
+      }
+    },
   },
 
   created() {
@@ -526,6 +546,7 @@ export default {
       this.paginations.current_page = +this.$route.query.page;
     }
     this.setTableRows();
+    this.getIso();
     // End:: Fire Methods
   },
 };

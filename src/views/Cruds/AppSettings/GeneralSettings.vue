@@ -44,8 +44,16 @@
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.insta_link')" v-model.trim="data.insta_link" />
           <!-- End:: Delivery Price Input -->
 
-          <!-- Start:: Driver's Daily Orders Amount Input -->
+          <!-- Start:: snap_link Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.snap_link')" v-model.trim="data.snap_link" />
+          <!-- End:: snap_link Input -->
+
+          <!-- Start:: Driver's Daily Orders Amount Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.x_link')" v-model.trim="data.twitter_link" />
+          <!-- End:: Driver's Daily Orders Amount Input -->
+
+          <!-- Start:: Driver's Daily Orders Amount Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.tiktok_link')" v-model.trim="data.tiktok_link" />
           <!-- End:: Driver's Daily Orders Amount Input -->
 
           <!-- Start:: Submit Button Wrapper -->
@@ -77,6 +85,8 @@ export default {
         facebook_link: null,
         snap_link: null,
         insta_link: null,
+        twitter_link: null,
+        tiktok_link: null,
 
       },
       // End:: Data Collection To Send
@@ -116,6 +126,8 @@ export default {
         this.data.facebook_link = res.data.data[0].value_pure.face_book;
         this.data.snap_link = res.data.data[0].value_pure.snapchat;
         this.data.insta_link = res.data.data[0].value_pure.instagram;
+        this.data.twitter_link = res.data.data[0].value_pure.twitter;
+        this.data.tiktok_link = res.data.data[0].value_pure.tiktok;
 
         // End:: Set Data
       } catch (error) {
@@ -140,6 +152,8 @@ export default {
       REQUEST_DATA.append("value[face_book]", this.data.facebook_link);
       REQUEST_DATA.append("value[snapchat]", this.data.snap_link);
       REQUEST_DATA.append("value[instagram]", this.data.insta_link);
+      REQUEST_DATA.append("value[twitter]", this.data.twitter_link);
+      REQUEST_DATA.append("value[tiktok]", this.data.tiktok_link);
 
       // Start:: Append Request Data
 

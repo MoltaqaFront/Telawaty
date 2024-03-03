@@ -6,19 +6,18 @@ export default {
   // START:: GET NOTIFICATIONS
   getNotifications(context) {
     // START:: SEND GET REQUEST
-    // axios({
-    //   method: "GET",
-    //   url: `notifications`,
-    // })
-    //   .then((res) => {
-    //     context.commit("setNotifications", {
-    //       notifications: res.data.data.notifications,
-    //       unreadNotificationsCount: res.data.data.unreadnotifications_count,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.response.data.message);
-    //   });
+    axios({
+      method: "GET",
+      url: `admin-notifications-count`,
+    })
+      .then((res) => {
+        context.commit("setNotifications", {
+          unreadNotificationsCount: res.data.count,
+        });
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
     // END:: SEND GET REQUEST
   },
   // END:: GET NOTIFICATIONS
@@ -45,12 +44,11 @@ export default {
     // START:: SEND GET REQUEST
     axios({
       method: "GET",
-      url: `read/all/notifications`,
+      url: `admin-notifications-count`,
     })
       .then((res) => {
         context.commit("setAllReadiedNotifications", {
-          notifications: res.data.data.notifications,
-          unreadNotificationsCount: res.data.data.unreadnotifications_count,
+          unreadNotificationsCount: res.data.count,
         });
       })
       .catch((error) => {

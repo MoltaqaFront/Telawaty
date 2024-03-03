@@ -29,6 +29,20 @@
       </div>
       <!-- End:: Home Route -->
 
+      <!-- Start:: notifications Route -->
+      <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')"
+        v-if="$can('notifications show', 'notifications')">
+        <router-link to="/all-notifications/all">
+          <span class="route_icon">
+            <img src="@/assets/media/icons/ui_icons/notifications.svg" alt="icon" width="40" height="40" />
+          </span>
+          <span class="route_text">
+            {{ $t("SIDENAV.notifications.title") }}
+          </span>
+        </router-link>
+      </div>
+      <!-- End:: notifications Route -->
+
       <!-- Start:: clients Route -->
       <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('clients index', 'clients')">
         <router-link to="/clients/all">
@@ -56,7 +70,8 @@
       <!-- End:: AdditionSurah Route -->
 
       <!-- Start:: Correction_readings Route -->
-      <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('correctionReading index', 'correctionReading')">
+      <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')"
+        v-if="$can('correctionReading index', 'correctionReading')">
         <router-link to="/correction-reading/all">
           <span class="route_icon">
             <img src="@/assets/media/icons/ui_icons/like.png" alt="icon" width="40" height="40" />

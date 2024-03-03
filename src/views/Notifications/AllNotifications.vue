@@ -1,171 +1,225 @@
 <template>
-  <div class="all_notifications_wrapper">
-    <div class="container">
-      <!-- START:: PAGE TITLE  -->
-      <div class="page_title">
-        <h4>{{ $t("TITLES.allNotifications") }}</h4>
+  <div class="show_all_content_wrapper">
 
-        <button
-          @click="openDeleteDialog"
-          v-if="
-            allReadiedNotificationsData.allReadiedNotificationsList.length != 0
-          "
-        >
-          {{ $t("BUTTONS.deleteAllNotifications") }}
-        </button>
-      </div>
-      <!-- END:: PAGE TITLE  -->
+    <!-- Start:: Single Step Form Content -->
+    <div class="single_step_form_content_wrapper">
+      <form>
 
-      <!-- START:: EMPTY NOTIFICATIONS -->
-      <div
-        class="empty_notifications_wrapper"
-        v-if="
-          allReadiedNotificationsData.allReadiedNotificationsList.length == 0
-        "
-      >
-        <img
-          src="../../assets/media/empty_messages/snooze.png"
-          alt="Empty Notifications"
-          width="160"
-          height="160"
-        />
+        <transition-group name="fade" v-if="receivedMessages.length">
+          <div class="notification" v-for="(message, index) in receivedMessages" :key="'k' + index">
 
-        <h4 class="message_text">{{ $t("TITLES.noNotifications") }}</h4>
-      </div>
-      <!-- END:: EMPTY NOTIFICATIONS -->
+            <div v-if="message.type == 'client'">
+              <router-link to="/clients/all">
+                <h3>{{ message.title }}</h3>
+                <p>{{ message.body }}</p>
+              </router-link>
 
-      <!-- START:: PAGE CONTENT -->
-      <div class="row" v-else>
-        <!-- START:: SINGLE NOTIFICATION ROW -->
-        <div
-          class="col-12"
-          v-for="item in allReadiedNotificationsData.allReadiedNotificationsList"
-          :key="item.id"
-        >
-          <div class="single_notification_row">
-            <!-- ********** START:: NOTIFICATION BODY ********** -->
-            <div
-              class="notification_body"
-              @click="
-                redirectNotification(item.notify_type);
-                readSingleNotification(item.id);
-              "
-            >
-              <p class="notification_title">
-                {{ item.title }}
-              </p>
-              <p class="notification_body">
-                {{ item.body }}
-              </p>
-              <p class="notification_date">
-                {{ item.created_at }}
-              </p>
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
             </div>
-            <!-- ********** END:: NOTIFICATION BODY ********** -->
 
-            <!-- ********** START:: NOTIFICATION DELETE BUTTON ********** -->
-            <div class="delete_btn_wrapper">
-              <button
-                class="delete_notification_btn"
-                @click.stop="
-                  deleteNotification({
-                    id: item.id,
-                    notificationType: 'readied_notification',
-                  })
-                "
-              >
-                <i class="fal fa-trash-alt"></i>
-              </button>
+            <div v-if="message.type == 'contact'">
+              <router-link to="/contact-messages/all">
+                <h3>{{ message.title }}</h3>
+                <p>{{ message.body }}</p>
+              </router-link>
+
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click.stop="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
             </div>
-            <!-- ********** END:: NOTIFICATION DELETE BUTTON ********** -->
+
           </div>
-        </div>
-        <!-- END:: SINGLE NOTIFICATION ROW -->
-      </div>
-      <!-- END:: PAGE CONTENT -->
 
-      <!-- START:: DELETE DIALOG -->
-      <v-dialog v-model="dialogDelete">
-        <v-card>
-          <v-card-title class="text-h5 justify-center">{{
-            $t("TITLES.DeleteConfirmingMessage")
-          }}</v-card-title>
-          <v-card-actions>
-            <v-btn class="modal_confirm_btn" @click="deleteAllNotifications">{{
-              $t("BUTTONS.yes")
-            }}</v-btn>
+        </transition-group>
 
-            <v-btn class="modal_cancel_btn" @click="dialogDelete = false">{{
-              $t("BUTTONS.cancel")
-            }}</v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <!-- END:: DELETE DIALOG -->
+        <p class="text-danger text-center text--darken-4 pt-5 pb-5" v-else>{{ $t('PLACEHOLDERS.no_notifications') }}</p>
+
+        <!-- Start:: Pagination -->
+        <template>
+          <div class="pagination_container text-center mt-3 mb-0">
+            <v-pagination class="py-0" square v-model="paginations.current_page" :length="paginations.last_page"
+              :total-visible="6" @input="updateRouterQueryParam($event)" :prev-icon="getAppLocale == 'ar' ? 'fal fa-angle-right' : 'fal fa-angle-left'
+                " :next-icon="getAppLocale == 'ar' ? 'fal fa-angle-left' : 'fal fa-angle-right'" />
+          </div>
+        </template>
+        <!-- End:: Pagination -->
+
+      </form>
     </div>
+    <!-- END:: Single Step Form Content -->
   </div>
 </template>
 
 <script>
-// START:: IMPORTING VUEX HELPERS
 import { mapGetters, mapActions } from "vuex";
-// END:: IMPORTING VUEX HELPERS
-
 export default {
-  name: "AllNotifications",
-
-  computed: {
-    // START:: VUEX GET NOTIFICATIONS DATA
-    ...mapGetters("NotificationsModule", ["allReadiedNotificationsData"]),
-    // END:: VUEX GET NOTIFICATIONS DATA
-  },
+  name: "CreateContact",
 
   data() {
     return {
-      // START:: DIALOGS STATUS
-      dialogDelete: false,
-      // END:: DIALOGS STATUS
+      // Start:: Loader Control Data
+      isWaitingRequest: false,
+      // End:: Loader Control Data
+
+      receivedMessages: [],
+      notificationCount: null,
+
+      // Start:: Pagination Data
+      paginations: {
+        current_page: 1,
+        last_page: 1,
+        items_per_page: 6,
+      },
+      // End:: Pagination Data
+
     };
   },
 
-  methods: {
-    // START:: VUEX NOTIFICATIONS ACTIONS
-    ...mapActions("NotificationsModule", [
-      "readAllNotifications",
-      "deleteNotification",
-      "deleteAllNotifications",
-      "readSingleNotification",
-    ]),
-    // END:: VUEX NOTIFICATIONS ACTIONS
+  computed: {
+    ...mapGetters({
+      getAppLocale: "AppLangModule/getAppLocale",
+      notificationsData: "NotificationsModule/notificationsData",
+    }),
+  },
 
-    // START:: DELETE ALL NOTIFICATIONS
-    openDeleteDialog() {
-      this.dialogDelete = true;
+  watch: {
+    // Start:: Page Query Param Watcher To Get Page Data Based On It's Change
+    ["$route.query.page"]() {
+      this.paginations.current_page = +this.$route.query.page;
+      this.getData();
     },
-    // END:: ALL NOTIFICATIONS
+    // End:: Page Query Param Watcher To Get Page Data Based On It's Change
+  },
 
-    // START:: REDIRECT NOTIFICATION
-    redirectNotification(notifyType) {
-      if (notifyType == "new_user_register") {
-        this.$router.push("/clients/all");
-      } else if (
-        notifyType == "add_shipment_attach" ||
-        notifyType == "update_shipment_request" ||
-        notifyType == "new_shipment_request"
-      ) {
-        this.$router.push("/shipment/all");
-      } else if (notifyType == "new_authorization_for_user") {
-        this.$router.push("/authorizations/all");
+  methods: {
+
+    ...mapActions({
+      readAllNotifications: "NotificationsModule/readAllNotifications",
+    }),
+
+    async getData() {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: "admin-notifications",
+          params: {
+            page: this.paginations.current_page
+          },
+        });
+        console.log("All Data index ==>", res.data.data);
+        this.receivedMessages = res.data.data;
+        this.paginations.last_page = res.data.meta.last_page;
+        this.paginations.items_per_page = res.data.meta.per_page;
+
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
       }
     },
-    // END:: REDIRECT NOTIFICATION
+    async NotificationsReaded(item_id) {
+      try {
+        let res = await this.$axios({
+          method: "POST",
+          url: `admin-notifications-mark-as-read`,
+          data: {
+            "notification_id": item_id
+          }
+        });
+        this.$message.success(res.data.message);
+        this.readAllNotifications();
+        this.notificationsData.unreadNotifications--;
+        console.log("notificationsData.unreadNotifications", this.notificationsData.unreadNotifications)
+        this.getData();
+      } catch (error) {
+        this.dialogDelete = false;
+        this.$message.error(error.response.data.errors);
+      }
+    },
+
+    updateRouterQueryParam(pagenationValue) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: pagenationValue,
+        },
+      });
+
+      // Scroll To Screen's Top After Get Products
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    },
+
   },
 
   created() {
-    // START:: FIRE METHODS
-    this.readAllNotifications();
-    // END:: FIRE METHODS
+    this.getData();
+
+    navigator.serviceWorker.addEventListener('message', event => {
+      const receivedMessage = event.data.data;
+      receivedMessage.read = false;
+
+      this.receivedMessages.unshift(receivedMessage);
+
+      console.log(event.data.data)
+      // console.log("receivedMessage", event)
+      // Update component state or display the received message in the UI
+    });
+
+    if (this.$route.query.page) {
+      this.paginations.current_page = +this.$route.query.page;
+    }
+
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0;
+}
+
+.notification {
+  background: #ece9e9;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+
+  .delete_notification {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+
+    &.read {
+      i {
+        color: #49a956;
+      }
+    }
+
+    i {
+      font-size: 20px;
+      color: #DDD
+    }
+
+  }
+}
+
+.text-danger {
+  font-size: 22px
+}
+</style>

@@ -13,8 +13,9 @@
         <span class="text-danger" v-if="required">*</span>
       </label>
       <input :id="$attrs.id" class="form-control" :type="type" :value="value" @click="$emit('fireClick')"
-        @input="updateValue($event)" @copy="onCopy" @paste="onPaste" :readonly="readonly" :disabled="disabled" />
+        @input="updateValue($event)" :readonly="readonly" :disabled="disabled" />
     </div>
+    <!-- @copy="onCopy" @paste="onPaste" -->
     <!-- ========== End:: Text || Number || Tel || Email Input ========== -->
 
     <!-- ========== Start:: Password Input ========== -->

@@ -56,7 +56,7 @@
 
         <div class="title_route_wrapper" v-if="$can('surahs create', 'surahs')">
           <router-link to="/correction-reading/create">
-            {{ $t("PLACEHOLDERS.add_new_attachment") }}
+            {{ $t("PLACEHOLDERS.add_new_content") }}
           </router-link>
         </div>
       </div>
@@ -168,7 +168,7 @@
           <v-dialog v-model="dialogDelete">
             <v-card>
               <v-card-title class="text-h5 justify-center" v-if="itemToDelete">
-                {{ $t("TITLES.DeleteConfirmingMessage", { name: itemToDelete.name }) }}
+                {{ $t("TITLES.DeleteConfirmingMessage", { name: itemToDelete.surah }) }}
               </v-card-title>
               <v-card-actions>
                 <v-btn class="modal_confirm_btn" @click="confirmDeleteItem">{{

@@ -415,11 +415,11 @@ export default {
           method: "DELETE",
           url: `addition_surahs/${this.itemToDelete.id}`,
         });
+        this.setTableRows();
         this.dialogDelete = false;
         this.tableRows = this.tableRows.filter((item) => {
           return item.id != this.itemToDelete.id;
         });
-        this.setTableRows();
         this.$message.success(this.$t("MESSAGES.deletedSuccessfully"));
       } catch (error) {
         this.dialogDelete = false;

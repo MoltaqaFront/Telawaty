@@ -12,6 +12,8 @@
         <div class="row">
 
           <!-- Start:: Upload File Input -->
+          <p class="pb-3 alert_para">{{ $t('PLACEHOLDERS.book_upload_limit') }}</p>
+
           <div class="col-12 upload_file">
             <label for="fileInput">{{ $t('PLACEHOLDERS.file') }}</label>
             <input ref="input_file" id="fileInput" type="file" @change="handleFileInputChange" accept=".pdf" />

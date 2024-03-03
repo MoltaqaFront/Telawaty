@@ -97,6 +97,7 @@ import AllReports from "../views/Cruds/Reports/ShowAll.vue";
 import NotificationsHome from "../views/Cruds/Notifications/Home.vue";
 import AllNotifications from "../views/Cruds/Notifications/ShowAll.vue";
 import CreateNotifications from "../views/Cruds/Notifications/Create.vue";
+import showNotifications from "../views/Notifications/AllNotifications.vue";
 // ============== End:: All Notifications Routes
 
 // ============== Start:: Forbidden Route
@@ -690,6 +691,34 @@ const routes = [
             component: AllNotifications,
             meta: {
               middleware: [auth],
+              requiresPermission: {
+                action: "notifications show",
+                subject: "notifications",
+              },
+            },
+          },
+          {
+            path: "create",
+            name: "CreateNotificationss",
+            component: CreateNotifications,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "notifications create",
+                subject: "notifications",
+              },
+            },
+          },
+          {
+            path: "show",
+            name: "showNotifications",
+            component: showNotifications,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "notifications show",
+                subject: "notifications",
+              },
             },
           },
         ],

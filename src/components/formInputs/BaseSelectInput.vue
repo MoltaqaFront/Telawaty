@@ -6,7 +6,7 @@
         {{ placeholder }}
         <span class="text-danger" v-if="required">*</span>
       </label>
-      <multiselect :options="optionsList" label="name" track-by="id" placeholder=" " :searchable="true"
+      <multiselect :options="optionsList" :label="label" track-by="id" placeholder=" " :searchable="true"
         :allow-empty="true" :show-labels="false" :open-direction="'bottom'" :value="value" @input="
           updateValue($event);
         $emit('fireInputEvent');
@@ -42,6 +42,11 @@ export default {
       required: false,
       type: Boolean,
       default: false,
+    },
+    label: {
+      required: false,
+      type: String,
+      default: 'name',
     },
     required: {
       required: false,

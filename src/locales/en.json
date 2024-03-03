@@ -1082,13 +1082,25 @@
     "add_new_content": "Add New Content",
     "view_data": "View Data",
     "edit_content": "Edit Content",
+    "app_users_management": "App Users Management",
+    "users_management": "Users Management",
 
     "language_profile_arabic": "Language Profile - Arabic",
     "language_profile_english": "Language Profile - English",
     "language_profile_urdu": "Language Profile - Urdu",
     "mind_map_arabic": "Mind Map - Arabic",
     "mind_map_english": "Mind Map - English",
-    "mind_map_urdu": "Mind Map - Urdu"
+    "mind_map_urdu": "Mind Map - Urdu",
+
+    "add_word": "Add Word",
+    "add_letter": "Add Letter",
+    "delete_word": "Delete Word",
+    "delete_letter": "Delete Letter",
+    "x_link": "X Link",
+    "tiktok_link": "TikTok Link",
+
+    "video_upload_limit": "20 Megabytes - Maximum Video Upload Size",
+    "book_upload_limit": "20 Megabytes - Maximum Book Upload Size"
   },
 
   "VALIDATION": {
@@ -1159,7 +1171,8 @@
     "country_code": "Country Code",
     "mobile_number": "Mobile Number",
     "subscription_date": "Subscription Date",
-    "select_surah_name": "Select Surah Name"
+    "select_surah_name": "Select Surah Name",
+    "fill_last_word": "Fill in the last word to add a new word"
   },
 
   "MESSAGES": {

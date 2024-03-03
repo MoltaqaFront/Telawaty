@@ -1080,6 +1080,7 @@
     "introductory_video": "الفيديو التعريفي",
 
     "app_users_management": "إدارة مستخدمي التطبيق",
+    "users_management": " مستخدمي التطبيق",
     "app_status": "حالة التطبيق",
     "trial_version": "نسخة تجريبية",
     "paid_version": "نسخة مدفوعة",
@@ -1105,7 +1106,17 @@
 
     "mind_map_arabic": "الخريطة الذهنية للغة العربية",
     "mind_map_english": "الخريطة الذهنية للغة الانجليزية",
-    "mind_map_urdu": "الخريطة الذهنية للغة بالأردية"
+    "mind_map_urdu": "الخريطة الذهنية للغة بالأردية",
+
+    "add_word": "اضافة كلمة",
+    "add_letter": "اضافة حرف",
+    "delete_word": "حذف كلمة",
+    "delete_letter": "حذف حرف",
+
+    "x_link": "رابط X",
+    "tiktok_link": "رابط تيك توك",
+    "video_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الفيديو",
+    "book_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الكتاب"
   },
 
   "VALIDATION": {
@@ -1168,7 +1179,8 @@
     "trial_repetition_not_empty": "حقل عدد مرات تكرار النسخة التجريبية لا يمكن أن يكون فارغ",
     "upload_introductory_video": "يجب رفع فيديو تعريفي",
 
-    "select_surah_name": "يجب اختيار اسم السورة"
+    "select_surah_name": "يجب اختيار اسم السورة",
+    "fill_last_word": "يجب ملئ اخر كلمة لاضافة كلمة جديدة"
   },
 
   "MESSAGES": {

@@ -196,6 +196,7 @@ export default {
       }
 
       REQUEST_DATA.append("is_active", +this.data.active);
+      REQUEST_DATA.append("is_created", 1);
       REQUEST_DATA.append("_method", "PUT");
       // Start:: Append Request Data
 

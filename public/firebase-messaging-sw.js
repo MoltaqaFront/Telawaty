@@ -5,13 +5,13 @@ importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 // Initialize the Firebase app in the service worker by passing the generated config
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA-to27z4qyYrUt_VHRztAZ2ld1qxxZV4g",
-  authDomain: "qarebcom-sa.firebaseapp.com",
-  projectId: "qarebcom-sa",
-  storageBucket: "qarebcom-sa.appspot.com",
-  messagingSenderId: "554635567198",
-  appId: "1:554635567198:web:42ba423e7a09d4252514cf",
-  measurementId: "G-84420XERJQ"
+  apiKey: "AIzaSyCbi0FUJDBPITd2Pxfk15PjrpZZsMfmeGg",
+  authDomain: "tlawaty.firebaseapp.com",
+  projectId: "tlawaty",
+  storageBucket: "tlawaty.appspot.com",
+  messagingSenderId: "590592866685",
+  appId: "1:590592866685:web:001583c81dab7ec96b3414",
+  measurementId: "G-1QQLBF621W",
 };
 
 firebase.initializeApp(firebaseConfig);

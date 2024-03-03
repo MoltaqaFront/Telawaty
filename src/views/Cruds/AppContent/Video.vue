@@ -11,6 +11,7 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
+          <p class="pb-3 alert_para">{{ $t('PLACEHOLDERS.video_upload_limit') }}</p>
           <UploadVideo :videoUrl="data.videoUrl" @file-selected="onFileSelected" />
 
           <!-- Start:: Submit Button Wrapper -->

@@ -148,7 +148,7 @@
                   <td>{{ row.id ? row.id : '-' }}</td>
                   <td>{{ row.name ? row.name : '-' }}</td>
                   <td>{{ row.ayah_count ? row.ayah_count : '-' }}</td>
-                  <td>{{ row.created_at ? row.created_at : '-' }}</td>
+                  <!-- <td>{{ row.created_at ? row.created_at : '-' }}</td> -->
                 </tr>
               </tbody>
             </template>
@@ -228,7 +228,7 @@ export default {
           text: this.$t("TABLES.StoresTypes.serialNumber"),
           value: "id",
           align: "center",
-          width: "80",
+          // width: "80",
           sortable: false,
         },
         {
@@ -239,16 +239,16 @@ export default {
         },
         {
           text: this.$t("PLACEHOLDERS.recitation_count"),
-          value: "ayah_count",
+          value: "views",
           sortable: false,
           align: "center",
         },
-        {
-          text: this.$t("TABLES.Products.created_at"),
-          value: "created_at",
-          sortable: false,
-          align: "center",
-        },
+        // {
+        //   text: this.$t("TABLES.Products.created_at"),
+        //   value: "created_at",
+        //   sortable: false,
+        //   align: "center",
+        // },
       ],
       tableRows: [],
       // End:: Table Data

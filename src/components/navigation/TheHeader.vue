@@ -25,7 +25,7 @@
                 </button>
               </a-badge> -->
 
-              <v-badge :content="notificationCount" floating>
+              <v-badge :content="notificationsData.unreadNotifications" floating>
                 <div class="notification_btn" @click.stop="
                   toggleNotificationsMenu();">
                   <i class=" fal fa-bell"></i>
@@ -50,7 +50,7 @@
               <!-- ********** End:: Theme Switcher Button ********** -->
 
               <!-- ********** Start:: Language Switcher Button ********** -->
-              <div class="lang_toggler_wrapper">
+              <!-- <div class="lang_toggler_wrapper">
                 <v-tooltip bottom v-if="getAppLocale == 'ar'">
                   <template v-slot:activator="{ on, attrs }">
                     <button class="lang_toggeler_btn" @click="changeAppLanguage('en')" v-bind="attrs" v-on="on">
@@ -71,7 +71,7 @@
                     $t("TOOLTIPS.change_language")
                   }}</span>
                 </v-tooltip>
-              </div>
+              </div> -->
               <!-- ********** End:: Language Switcher Button ********** -->
 
               <!-- ********** Start:: Small Screens Navbar Drawer Button ********** -->
@@ -128,6 +128,7 @@ export default {
       getAppTheme: "AppThemeModule/getAppTheme",
       getAppLocale: "AppLangModule/getAppLocale",
       getAuthenticatedUserData: "AuthenticationModule/getAuthenticatedUserData",
+      notificationsData: "NotificationsModule/notificationsData",
     }),
     // End:: Vuex Getters
   },
@@ -151,6 +152,7 @@ export default {
     ...mapActions({
       changeAppTheme: "AppThemeModule/changeAppTheme",
       changeAppLanguage: "AppLangModule/changeAppLanguage",
+      readAllNotifications: "NotificationsModule/readAllNotifications",
     }),
     // End:: Vuex Actions
 
@@ -158,7 +160,7 @@ export default {
     toggleNotificationsMenu() {
       // this.notificationsMenuIsOpen = !this.notificationsMenuIsOpen;
       // this.chatsDrawerIsOpen = false;
-      this.$router.push("/all-notifications/all");
+      this.$router.push("/all-notifications/show");
 
     },
     // End:: Toggle Notifications Menu
@@ -178,25 +180,11 @@ export default {
       }
     },
     // End:: Notification Redirect
-
-    async getData() {
-      try {
-        let res = await this.$axios({
-          method: "GET",
-          url: "notification/index"
-        });
-        // console.log("All Data ==>", res.data.data);
-        this.notificationCount = res.data.data.filter((item) => item.is_read == 0).length;
-      } catch (error) {
-        this.loading = false;
-        console.log(error.response.data.message);
-      }
-    },
   },
 
   created() {
 
-    this.getData();
+    this.readAllNotifications();
 
     navigator.serviceWorker.addEventListener('message', event => {
       this.notificationCount++;
