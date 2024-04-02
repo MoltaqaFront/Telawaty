@@ -12,7 +12,7 @@
         <div class="row align-items-baseline">
 
           <!-- Start:: Name Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.book_name')" v-model.trim="data.name"
             @input="validateInput" required />
           <!-- End:: Name Input -->
 
@@ -34,7 +34,15 @@
           </div>
           <!-- End:: Upload File Input -->
 
+          <!-- Start:: author_name Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.author_name')" v-model.trim="data.author_name"
+            required />
+          <!-- End:: Name Input -->
 
+          <!-- Start:: release_date Input -->
+          <base-input col="6" type="date" :placeholder="$t('PLACEHOLDERS.release_date')"
+            v-model.trim="data.release_date" required />
+          <!-- End:: release_date Input -->
 
           <!-- Start:: Deactivate Switch Input -->
           <div class="input_wrapper switch_wrapper my-5">
@@ -45,8 +53,8 @@
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
-            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest" />
+            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -70,6 +78,8 @@ export default {
       // Start:: Data Collection To Send
       data: {
         name: null,
+        release_date: null,
+        author_name: null,
         active: null
       },
       uploadedFile: null,
@@ -129,10 +139,14 @@ export default {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
       // Append Uploaded File
-      if (this.uploadedFile) {
+
+      if (this.uploadedFile instanceof File) {
         REQUEST_DATA.append("src", this.uploadedFile);
       }
+
       REQUEST_DATA.append("name", this.data.name);
+      REQUEST_DATA.append("author_name", this.data.author_name);
+      REQUEST_DATA.append("release_date", this.data.release_date);
       REQUEST_DATA.append("is_active", +this.data.active);
       REQUEST_DATA.append("_method", "PUT");
       // Start:: Append Request Data
@@ -162,6 +176,8 @@ export default {
         });
         this.uploadedFile = res.data.data.src;
         this.data.name = res.data.data.name;
+        this.data.release_date = res.data.data.release_date;
+        this.data.author_name = res.data.data.author_name;
         this.data.active = res.data.data.is_active;
       } catch (error) {
         this.loading = false;

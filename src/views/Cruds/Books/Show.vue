@@ -12,7 +12,7 @@
         <div class="row align-items-baseline">
 
           <!-- Start:: Name Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.book_name')" v-model.trim="data.name"
             @input="validateInput" disabled />
           <!-- End:: Name Input -->
 
@@ -32,6 +32,16 @@
             </div>
           </div>
           <!-- End:: Upload File Input -->
+
+          <!-- Start:: author_name Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.author_name')" v-model.trim="data.author_name"
+            disabled />
+          <!-- End:: Name Input -->
+
+          <!-- Start:: release_date Input -->
+          <base-input col="6" type="date" :placeholder="$t('PLACEHOLDERS.release_date')"
+            v-model.trim="data.release_date" disabled />
+          <!-- End:: release_date Input -->
 
           <!-- Start:: Deactivate Switch Input -->
           <div class="input_wrapper switch_wrapper my-5">
@@ -61,6 +71,8 @@ export default {
       // Start:: Data Collection To Send
       data: {
         name: null,
+        release_date: null,
+        author_name: null,
         active: null
       },
       uploadedFile: null,
@@ -91,6 +103,8 @@ export default {
         });
         this.uploadedFile = res.data.data.src;
         this.data.name = res.data.data.name;
+        this.data.release_date = res.data.data.release_date;
+        this.data.author_name = res.data.data.author_name;
         this.data.active = res.data.data.is_active;
       } catch (error) {
         this.loading = false;

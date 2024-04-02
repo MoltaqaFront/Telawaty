@@ -1053,7 +1053,6 @@
     "reader_management": "Reader Management",
     "reader_name": "Reader Name",
     "library_management": "Library Management",
-    "book_name": "Book Name",
     "file": "File",
     "add_new_book": "Add New Book",
     "edit_book": "Edit Book",
@@ -1100,7 +1099,11 @@
     "tiktok_link": "TikTok Link",
 
     "video_upload_limit": "20 Megabytes - Maximum Video Upload Size",
-    "book_upload_limit": "20 Megabytes - Maximum Book Upload Size"
+    "book_upload_limit": "20 Megabytes - Maximum Book Upload Size",
+
+    "author_name": "Author Name",
+    "book_name": "Book Name",
+    "release_date": "Release Date"
   },
 
   "VALIDATION": {

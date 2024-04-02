@@ -1060,7 +1060,6 @@
     "reader_management": "إدارة القراء",
     "reader_name": "اسم القارئ",
     "library_management": "إدارة المكتبة",
-    "book_name": "اسم الكتاب",
     "file": "الملف",
     "add_new_book": "إضافة كتاب جديد",
     "edit_book": "تعديل الكتاب",
@@ -1116,7 +1115,11 @@
     "x_link": "رابط X",
     "tiktok_link": "رابط تيك توك",
     "video_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الفيديو",
-    "book_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الكتاب"
+    "book_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الكتاب",
+
+    "author_name": "اسم الكاتب",
+    "book_name": "اسم الكتاب",
+    "release_date": "تاريخ الاصدار"
   },
 
   "VALIDATION": {

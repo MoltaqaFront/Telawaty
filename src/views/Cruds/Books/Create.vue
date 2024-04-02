@@ -29,10 +29,20 @@
           </div>
           <!-- End:: Upload File Input -->
 
-          <!-- Start:: Name Input -->
-          <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
+          <!-- Start:: book_name Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.book_name')" v-model.trim="data.name"
+            @input="validateInput" required />
+          <!-- End:: book_name Input -->
+
+          <!-- Start:: author_name Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.author_name')" v-model.trim="data.author_name"
             @input="validateInput" required />
           <!-- End:: Name Input -->
+
+          <!-- Start:: release_date Input -->
+          <base-input col="6" type="date" :placeholder="$t('PLACEHOLDERS.release_date')"
+            v-model.trim="data.release_date" @input="validateInput" required />
+          <!-- End:: release_date Input -->
 
           <!-- Start:: Deactivate Switch Input -->
           <div class="input_wrapper switch_wrapper my-5">
@@ -43,8 +53,8 @@
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
-            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest" />
+            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -68,7 +78,9 @@ export default {
       // Start:: Data Collection To Send
       data: {
         name: null,
-        active: null
+        active: null,
+        author_name: null,
+        release_date: null,
       },
       uploadedFile: null,
       // End:: Data Collection To Send
@@ -128,6 +140,8 @@ export default {
         REQUEST_DATA.append("src", this.uploadedFile);
       }
       REQUEST_DATA.append("name", this.data.name);
+      REQUEST_DATA.append("author_name", this.data.author_name);
+      REQUEST_DATA.append("release_date", this.data.release_date);
       REQUEST_DATA.append("is_active", +this.data.active);
       // Start:: Append Request Data
 
