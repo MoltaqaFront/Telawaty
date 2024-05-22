@@ -36,6 +36,8 @@ import Terms from "../views/Cruds/AppContent/Terms.vue";
 import PrivacyPolicy from "../views/Cruds/AppContent/PrivacyPolicy.vue";
 import Guides from "../views/Cruds/AppContent/Guides.vue";
 import Video from "../views/Cruds/AppContent/Video.vue";
+import AboutApp from "../views/Cruds/AppContent/AboutApp.vue";
+import Trip from "../views/Cruds/AppContent/Trip.vue";
 // ============== End:: App Content Routes
 
 // ============== Start:: App Settings Routes
@@ -92,6 +94,13 @@ import AllReaders from "../views/Cruds/Readers/ShowAll.vue";
 import ReportsHome from "../views/Cruds/Reports/Home.vue";
 import AllReports from "../views/Cruds/Reports/ShowAll.vue";
 // ============== End:: Reports Routes
+
+// Start:: Questions Router Components
+import questionsHome from "../views/Cruds/FAQ/Home.vue";
+import AllQuestions from "../views/Cruds/FAQ/ShowAll.vue";
+import CreateQuestions from "../views/Cruds/FAQ/Create.vue";
+import EditQuestions from "../views/Cruds/FAQ/Edit.vue";
+// End:: Questions Router Components
 
 // ============== Start:: All Notifications Routes
 import NotificationsHome from "../views/Cruds/Notifications/Home.vue";
@@ -531,6 +540,30 @@ const routes = [
               },
             },
           },
+          {
+            path: "trip",
+            name: "trip",
+            component: Trip,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "settings index",
+                subject: "settings",
+              },
+            },
+          },
+          {
+            path: "about_app",
+            name: "about_app",
+            component: AboutApp,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "settings index",
+                subject: "settings",
+              },
+            },
+          },
         ],
       },
       // End:: App Content Routes Config
@@ -724,6 +757,56 @@ const routes = [
         ],
       },
       // End:: All Notifications Route Config
+
+      // Start:: questions Routes Config
+      {
+        path: "/questions",
+        name: "questionsHome",
+        component: questionsHome,
+        meta: {
+          middleware: [auth],
+        },
+        children: [
+          {
+            path: "all",
+            name: "AllQuestions",
+            component: AllQuestions,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "settings index",
+                subject: "settings",
+              },
+            },
+          },
+          {
+            path: "create",
+            name: "CreateQuestions",
+            component: CreateQuestions,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "settings index",
+                subject: "settings",
+              },
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditQuestions",
+            component: EditQuestions,
+            props: true,
+            meta: {
+              middleware: [auth],
+              requiresPermission: {
+                action: "settings index",
+                subject: "settings",
+              },
+            },
+          },
+        ],
+      },
+      // End:: questions Routes Config
     ],
   },
   // ***************** End:: Content Routes Config

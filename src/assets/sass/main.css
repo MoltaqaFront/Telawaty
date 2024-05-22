@@ -47,6 +47,9 @@
   --mid_shadow_clr: rgba(12, 12, 12, 0.6);
   --cke_bottom: #3a3a3a;
 }
+:root .dark_theme .multiselect--disabled {
+  background: transparent !important;
+}
 
 .v-application * ul,
 .v-application * ol {
@@ -787,6 +790,11 @@ input[type=number] {
 .app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .side_routes_wrapper .ant-menu .ant-menu-submenu .ant-menu-submenu-title a span {
   font-size: 18px;
   color: #313131;
+}
+
+.alert_para {
+  color: brown !important;
+  font-weight: 700;
 }
 
 .not_found_page_wrapper {

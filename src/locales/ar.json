@@ -28,6 +28,21 @@
       "showAll": "كل المستخدمين",
       "add": "إضافة مستخدم جديد"
     },
+
+    "questions": {
+      "title": "العناصر الرئيسية",
+      "name": "اسم العنصر",
+      "answer": "النص",
+      "bodyAr": "العنصر باللغة العربية",
+      "bodyEn": "العنصر باللغة الانجليزية",
+      "bodyEd": "العنصر باللغة الاردية",
+      "answerAr": "النص بالعربية",
+      "answerEn": "النص باالانجليزية",
+      "answerEd": "النص بالاردية",
+      "add": "اضافة عنصر جديد",
+      "edit": "تعديل بيانات عنصر",
+      "date": "تاريخ الإنشاء"
+    },
     "Clients": {
       "title": "العملاء",
       "showAll": "كل العملاء",
@@ -1114,12 +1129,18 @@
 
     "x_link": "رابط X",
     "tiktok_link": "رابط تيك توك",
-    "video_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الفيديو",
-    "book_upload_limit": "20 ميجابايت - الحد الأقصى لرفع الكتاب",
+    "video_upload_limit": "100 ميجابايت - الحد الأقصى لرفع الفيديو",
+    "book_upload_limit": "100 ميجابايت - الحد الأقصى لرفع الكتاب",
 
     "author_name": "اسم الكاتب",
     "book_name": "اسم الكتاب",
-    "release_date": "تاريخ الاصدار"
+    "release_date": "تاريخ الاصدار",
+
+    "project_name": "مشروع تطبيق تلاوتي",
+    "project_description": "رحلة التطوير",
+
+    "question_required_urdu": "السؤال بالاردية مطلوب",
+    "answer_required_urdu": "الاجابة بالاردية مطلوبة"
   },
 
   "VALIDATION": {
@@ -1183,7 +1204,15 @@
     "upload_introductory_video": "يجب رفع فيديو تعريفي",
 
     "select_surah_name": "يجب اختيار اسم السورة",
-    "fill_last_word": "يجب ملئ اخر كلمة لاضافة كلمة جديدة"
+    "fill_last_word": "يجب ملئ اخر كلمة لاضافة كلمة جديدة",
+
+    "issue_date_format_error": "يجب ان يكون تاريخ الاصدار ارقام صحيحة وان يحتوي علي 4 ارقام",
+
+    "question_required_english": "العنصر باللغة الانجليزية مطلوب",
+    "question_required_urdu": "العنصر باللغة الاردية مطلوب",
+    "question_required_arabic": "العنصر باللغة العربية مطلوب",
+    "answer_required_arabic": "النص بالعربية مطلوبة",
+    "answer_required_english": "النص بالانجليزية مطلوبة"
   },
 
   "MESSAGES": {

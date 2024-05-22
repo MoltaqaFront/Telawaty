@@ -40,7 +40,7 @@
           <!-- End:: Name Input -->
 
           <!-- Start:: release_date Input -->
-          <base-input col="6" type="date" :placeholder="$t('PLACEHOLDERS.release_date')"
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.release_date')"
             v-model.trim="data.release_date" required />
           <!-- End:: release_date Input -->
 
@@ -127,6 +127,11 @@ export default {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.name"));
         return;
+      }
+      else if (!/^\d{4}$/.test(this.data.release_date)) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.issue_date_format_error"));
+        return;
       } else {
         this.submitForm();
         return;
@@ -144,9 +149,16 @@ export default {
         REQUEST_DATA.append("src", this.uploadedFile);
       }
 
-      REQUEST_DATA.append("name", this.data.name);
-      REQUEST_DATA.append("author_name", this.data.author_name);
-      REQUEST_DATA.append("release_date", this.data.release_date);
+      if (this.data.name) {
+        REQUEST_DATA.append("name", this.data.name);
+      }
+      if (this.data.author_name) {
+        REQUEST_DATA.append("author_name", this.data.author_name);
+      }
+      if (this.data.release_date) {
+        REQUEST_DATA.append("release_date", this.data.release_date);
+      }
+
       REQUEST_DATA.append("is_active", +this.data.active);
       REQUEST_DATA.append("_method", "PUT");
       // Start:: Append Request Data

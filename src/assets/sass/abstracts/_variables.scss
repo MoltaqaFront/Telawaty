@@ -58,6 +58,10 @@
     --mid_shadow_clr: rgba(12, 12, 12, 0.6);
     --cke_bottom: #3a3a3a;
     // =========== End:: Theme Colors ===========
+
+    .multiselect--disabled {
+      background: transparent !important;
+    }
   }
   // End:: DARK THEME COLORS
 }

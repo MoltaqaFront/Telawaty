@@ -167,6 +167,19 @@
       </div>
       <!-- End:: Side Nav Routes -->
 
+      <!-- Start:: questions Route -->
+      <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('settings index', 'settings')">
+        <router-link to="/questions/all">
+          <span class="route_icon">
+            <img src="@/assets/media/icons/ui_icons/question.png" alt="icon" width="40" height="40" />
+          </span>
+          <span class="route_text">
+            {{ $t("SIDENAV.questions.title") }}
+          </span>
+        </router-link>
+      </div>
+      <!-- End:: questions Route -->
+
       <!-- Start:: settings Route -->
       <div class="home_route" @click="$emit('fireToggleNavDrawerEmit')" v-if="$can('settings index', 'settings')">
         <router-link to="/settings">
@@ -236,7 +249,7 @@
             }}</v-btn>
 
             <v-btn class="modal_cancel_btn" @click="logoutConfirmationModalIsOpen = false">{{ $t("BUTTONS.cancel")
-            }}</v-btn>
+              }}</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -316,6 +329,18 @@ export default {
               key: "Guides",
               title: this.$t("PLACEHOLDERS.guidelines"),
               route: "/app-content/guides",
+              hasPermission: this.$can('settings index', 'settings'),
+            },
+            {
+              key: "trip",
+              title: this.$t("PLACEHOLDERS.project_description"),
+              route: "/app-content/trip",
+              hasPermission: this.$can('settings index', 'settings'),
+            },
+            {
+              key: "about_app",
+              title: this.$t("PLACEHOLDERS.project_name"),
+              route: "/app-content/about_app",
               hasPermission: this.$can('settings index', 'settings'),
             },
             {

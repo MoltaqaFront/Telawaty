@@ -38,6 +38,20 @@
       "showAll": "All Offers",
       "add": "Add New Offer"
     },
+    "questions": {
+      "title": "FAQ",
+      "name": "Name Of Item",
+      "answer": "Text",
+      "bodyAr": "The Item is in Arabic",
+      "bodyEn": "The Item is in English",
+      "bodyEd": "The Item is in Aurdi",
+      "answerAr": "Text in Arabic",
+      "answerEn": "Text in English",
+      "answerEd": "Text in Aurdi",
+      "add": "Add a new Item",
+      "edit": "Edit Item data",
+      "date": "Creation date"
+    },
     "Clients": {
       "title": "Clients",
       "showAll": "All Clients",
@@ -1098,12 +1112,18 @@
     "x_link": "X Link",
     "tiktok_link": "TikTok Link",
 
-    "video_upload_limit": "20 Megabytes - Maximum Video Upload Size",
-    "book_upload_limit": "20 Megabytes - Maximum Book Upload Size",
+    "video_upload_limit": "100 Megabytes - Maximum Video Upload Size",
+    "book_upload_limit": "100 Megabytes - Maximum Book Upload Size",
 
     "author_name": "Author Name",
     "book_name": "Book Name",
-    "release_date": "Release Date"
+    "release_date": "Release Date",
+
+    "project_name": "Tilawati App Project",
+    "project_description": "Development Journey",
+
+    "question_required_urdu": "Urdu question is required",
+    "answer_required_urdu": "Urdu answer is required"
   },
 
   "VALIDATION": {
@@ -1175,7 +1195,14 @@
     "mobile_number": "Mobile Number",
     "subscription_date": "Subscription Date",
     "select_surah_name": "Select Surah Name",
-    "fill_last_word": "Fill in the last word to add a new word"
+    "fill_last_word": "Fill in the last word to add a new word",
+    "issue_date_format_error": "Issue date must be valid numbers and contain 4 digits",
+
+    "question_required_english": "English question is required",
+    "question_required_urdu": "Urdu question is required",
+    "question_required_arabic": "Arabic question is required",
+    "answer_required_arabic": "Arabic answer is required",
+    "answer_required_english": "English answer is required"
   },
 
   "MESSAGES": {

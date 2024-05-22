@@ -66,27 +66,27 @@
 
                   <div class="delete d-flex justify-content-center">
                     <button type="button" @click="removeLetter(wordIndex, letterIndex)">{{
-                      $t('PLACEHOLDERS.delete_letter') }}</button>
+        $t('PLACEHOLDERS.delete_letter') }}</button>
                   </div>
                 </div>
               </div>
 
               <div class="btn_wrapper d-flex justify-content-start">
                 <button type="button" @click="addLetter(wordIndex)">{{
-                  $t('PLACEHOLDERS.add_letter') }}</button>
+        $t('PLACEHOLDERS.add_letter') }}</button>
               </div>
 
               <div class="delete  d-flex justify-content-end">
                 <button type="button" @click="removeWord(wordIndex)">{{
-                  $t('PLACEHOLDERS.delete_word') }}</button>
+        $t('PLACEHOLDERS.delete_word') }}</button>
               </div>
             </div>
           </div>
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
-            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest" />
+            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -269,6 +269,7 @@ export default {
       this.words.forEach((word, wordIndex) => {
         // start:: word data
         if (this.words[wordIndex].word.id !== null) {
+          REQUEST_DATA.append(`words[${wordIndex}][main_id]`, this.words[wordIndex].id);
           REQUEST_DATA.append(`words[${wordIndex}][id]`, this.words[wordIndex].word.id);
         }
         if (word.voice) {

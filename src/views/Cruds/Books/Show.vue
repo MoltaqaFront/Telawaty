@@ -18,18 +18,20 @@
 
           <!-- Start:: Upload File Input -->
           <div class="col-lg-6 upload_file">
-            <label for="fileInput">{{ $t('PLACEHOLDERS.file') }}</label>
-            <input ref="input_file" id="fileInput" type="file" accept=".pdf" disabled />
+            <label for="fileInput">
+              {{ $t('PLACEHOLDERS.file') }}
 
-            <div v-if="uploadedFile" class="file_wrapper">
-              <!-- <pdf :src="pdfUrl" :page="1" :rotation="0" :scale="1.0"></pdf> -->
-              <a :href="getFileUrl(uploadedFile)" target="_blank" rel="noopener noreferrer">
-                <div class="book_content position-relative">
-                  <i class="fas fa-book book"></i>
-                </div>
-                <span class="name_book">{{ uploadedFile.name }}</span>
-              </a>
-            </div>
+              <div v-if="uploadedFile" class="file_wrapper">
+                <!-- <pdf :src="pdfUrl" :page="1" :rotation="0" :scale="1.0"></pdf> -->
+                <a :href="getFileUrl(uploadedFile)" target="_blank" rel="noopener noreferrer">
+                  <div class="book_content position-relative">
+                    <i class="fas fa-book book"></i>
+                  </div>
+                  <span class="name_book">{{ uploadedFile.name }}</span>
+                </a>
+
+              </div>
+            </label>
           </div>
           <!-- End:: Upload File Input -->
 
@@ -39,7 +41,7 @@
           <!-- End:: Name Input -->
 
           <!-- Start:: release_date Input -->
-          <base-input col="6" type="date" :placeholder="$t('PLACEHOLDERS.release_date')"
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.release_date')"
             v-model.trim="data.release_date" disabled />
           <!-- End:: release_date Input -->
 
@@ -162,12 +164,14 @@ export default {
     border-radius: 8px;
     cursor: pointer;
     background: #FFF;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center
   }
 }
 
 .file_wrapper {
-  margin-top: 30px;
+  // margin-top: 30px; 
 
   .name_book {
     font-weight: 600;
