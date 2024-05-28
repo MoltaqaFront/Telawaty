@@ -65,20 +65,20 @@
                     :placeholder="$t('PLACEHOLDERS.coloring')" v-model.trim="letter.letter_color" />
 
                   <div class="delete d-flex justify-content-center">
-                    <button type="button" @click="removeLetter(wordIndex, letterIndex)">{{
-        $t('PLACEHOLDERS.delete_letter') }}</button>
+                    <button type="button" @click="removeLetter(wordIndex, letterIndex, letter.letter_id)">{{
+                      $t('PLACEHOLDERS.delete_letter') }}</button>
                   </div>
                 </div>
               </div>
 
               <div class="btn_wrapper d-flex justify-content-start">
                 <button type="button" @click="addLetter(wordIndex)">{{
-        $t('PLACEHOLDERS.add_letter') }}</button>
+                  $t('PLACEHOLDERS.add_letter') }}</button>
               </div>
 
               <div class="delete  d-flex justify-content-end">
-                <button type="button" @click="removeWord(wordIndex)">{{
-        $t('PLACEHOLDERS.delete_word') }}</button>
+                <button type="button" @click="removeWord(wordIndex, words[wordIndex])">{{
+                  $t('PLACEHOLDERS.delete_word') }}</button>
               </div>
             </div>
           </div>
@@ -133,7 +133,11 @@ export default {
             }
           ]
         }
-      ]
+      ],
+
+      // New arrays to store deleted items
+      delete_letters: [],
+      delete_words: []
       // End:: Data Collection To Send
     };
   },
@@ -171,15 +175,6 @@ export default {
     // End:: Vuex Actions
 
     addWord(wordIndex) {
-      // Check if the last added word is empty
-      // const lastWord = this.words[this.words.length - 1];
-
-      // if (lastWord && (lastWord.word_id == '')) {
-      //   // If the last added word is empty, don't add a new one
-      //   this.$message.error(this.$t("VALIDATION.fill_last_word"));
-      //   return;
-      // }
-
       // Extract all word IDs from the existing words
       const existingWordIds = this.words.map(word => word.word.id);
 
@@ -194,8 +189,12 @@ export default {
       });
     },
 
-    removeWord(index) {
+    removeWord(index, word_id) {
+      // Push the removed word into the delete_words array
       this.words.splice(index, 1);
+      this.delete_words.push(word_id);
+
+      console.log(this.delete_words)
     },
 
     async addLetter(wordIndex) {
@@ -215,7 +214,7 @@ export default {
         this.words[wordIndex].letters_array.push({
           letters: newLetters,
           letter_id: '', // Assuming you set the letter_id elsewhere
-          letter_color: '' // Assuming you set the letter_color elsewhere
+          letter_color: ''
         });
       } catch (error) {
         this.loading = false;
@@ -223,8 +222,12 @@ export default {
       }
     },
 
-    removeLetter(wordIndex, letterIndex) {
+    removeLetter(wordIndex, letterIndex, letter_id) {
+      // Push the removed letter into the delete_letters array
       this.words[wordIndex].letters_array.splice(letterIndex, 1);
+      this.delete_letters.push(letter_id);
+
+      console.log(this.delete_letters)
     },
 
     onVoiceFileChange(wordIndex) {
@@ -267,22 +270,35 @@ export default {
       let letterIndex = 0; // Track overall letter index
 
       this.words.forEach((word, wordIndex) => {
+
         // start:: word data
+
         if (this.words[wordIndex].word.id !== null) {
-          REQUEST_DATA.append(`words[${wordIndex}][main_id]`, this.words[wordIndex].id);
+          if (this.words[wordIndex].id) {
+            REQUEST_DATA.append(`words[${wordIndex}][main_id]`, this.words[wordIndex].id);
+          }
           REQUEST_DATA.append(`words[${wordIndex}][id]`, this.words[wordIndex].word.id);
         }
-        if (word.voice) {
+
+        if (word.voice && word.voice instanceof File) {
           REQUEST_DATA.append(`words[${wordIndex}][voice]`, word.voice);
         }
+
         if (word.word_color?.value) {
           REQUEST_DATA.append(`words[${wordIndex}][color]`, word.word_color.value);
         }
+
         // end:: word data
 
         // start:: letter data
         if (word.letters_array) {
           word.letters_array.forEach((letter, letterIndexWithinWord) => {
+
+            console.log("letter", letter)
+            if (+letter.letter_id?.id_item) {
+              REQUEST_DATA.append(`letters[${letterIndex}][id]`, +letter.letter_id?.id_item);
+            }
+
             REQUEST_DATA.append(`letters[${letterIndex}][word_id]`, this.words[wordIndex].word.id);
             REQUEST_DATA.append(`letters[${letterIndex}][letter_id]`, +letter.letter_id?.id);
             if (letter.letter_color?.value) {
@@ -292,7 +308,25 @@ export default {
           });
         }
         // end:: letter data
+
       });
+
+      // Append deleted letters and words
+      if (this.delete_letters.length) {
+        this.delete_letters.forEach((letter, index) => {
+          if (letter.id_item) {
+            REQUEST_DATA.append(`delete_letters[${index}]`, letter.id_item);
+          }
+        });
+      }
+
+      if (this.delete_words.length) {
+        this.delete_words.forEach((word, index) => {
+          if (word.id) {
+            REQUEST_DATA.append(`delete_words[${index}]`, word.id);
+          }
+        });
+      }
 
       REQUEST_DATA.append("_method", "PUT");
 
@@ -301,11 +335,11 @@ export default {
       try {
         await this.$axios({
           method: "POST",
-          url: `correction-reading/${this.$route.params.id}`,
+          url: `update-correction-readings/${this.$route.params.id}`,
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
+        this.$message.success(this.$t("MESSAGES.editedSuccessfully"));
         this.$router.push({ path: "/correction-reading/all" });
       } catch (error) {
         this.isWaitingRequest = false;
