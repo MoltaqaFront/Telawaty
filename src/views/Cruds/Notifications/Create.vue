@@ -67,8 +67,8 @@
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
-            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest" />
+            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -220,7 +220,7 @@ export default {
       try {
         let res = await this.$axios({
           method: "GET",
-          url: "clients"
+          url: "clients-items"
         });
         this.loading = false;
         this.clients = res.data.data;
