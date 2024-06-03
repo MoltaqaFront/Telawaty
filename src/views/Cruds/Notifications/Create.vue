@@ -138,38 +138,41 @@ export default {
       const englishRegex = /^[a-zA-Z\s]+$/;
       if (!this.data.titleAr) {
         this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.nameAr"));
+        this.$message.error(this.$t("VALIDATION.title_in_arabic_required"));
         return;
       } else if (!this.data.titleEn) {
         this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.nameEn"));
+        this.$message.error(this.$t("VALIDATION.title_in_english_required"));
         return;
-      } else if (!this.data.contentAr) {
+      } else if (!this.data.titleAd) {
         this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.contentAr"));
-        return;
-      } else if (!this.data.contentEn) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.contentEn"));
-        return;
-      } else if (!arabicRegex.test(this.data.titleAr)) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.arabic_words_required"));
-        return;
-      } else if (!englishRegex.test(this.data.titleEn)) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.english_words_required"));
+        this.$message.error(this.$t("VALIDATION.title_in_urdu_required"));
         return;
       }
-      else if (!arabicRegex.test(this.data.contentAr)) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.arabic_content_required"));
-        return;
-      } else if (!englishRegex.test(this.data.contentEn)) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.english_content_required"));
-        return;
-      }
+      // else if (!this.data.contentEn) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.contentEn"));
+      //   return;
+      // }
+      // else if (!arabicRegex.test(this.data.titleAr)) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.arabic_words_required")); 
+      //   return;
+      // }
+      // else if (!englishRegex.test(this.data.titleEn)) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.english_words_required"));
+      //   return;
+      // }
+      // else if (!arabicRegex.test(this.data.contentAr)) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.arabic_content_required"));
+      //   return;
+      // } else if (!englishRegex.test(this.data.contentEn)) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.english_content_required"));
+      //   return;
+      // }
       else {
         this.submitForm();
         return;

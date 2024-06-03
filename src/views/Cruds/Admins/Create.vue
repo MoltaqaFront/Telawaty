@@ -52,8 +52,8 @@
 
           <!-- Start:: Submit Button Wrapper -->
           <div class="btn_wrapper">
-            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest" />
+            <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -124,11 +124,12 @@ export default {
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-      if (!this.data.image.path) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.image"));
-        return;
-      } else if (!this.data.name) {
+      // if (!this.data.image.path) {
+      //   this.isWaitingRequest = false;
+      //   this.$message.error(this.$t("VALIDATION.image"));
+      //   return;
+      // } else
+      if (!this.data.name) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.name"));
         return;

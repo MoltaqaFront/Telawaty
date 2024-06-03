@@ -29,7 +29,7 @@
               <div class="row align-items-center">
 
                 <!-- @input="getLetters(wordIndex)" -->
-                <base-select-input class="col-lg-4 col-12" :optionsList="data.ayah_words"
+                <base-select-input class="col-lg-4 col-12 word_text" :optionsList="data.ayah_words"
                   :placeholder="$t('PLACEHOLDERS.word')" v-model.trim="words[wordIndex].word_id" />
 
                 <div class="col-lg-4 col-12">
@@ -59,19 +59,19 @@
 
                   <div class="delete d-flex justify-content-center">
                     <button type="button" @click="removeLetter(wordIndex, letterIndex)">{{
-        $t('PLACEHOLDERS.delete_letter') }}</button>
+                      $t('PLACEHOLDERS.delete_letter') }}</button>
                   </div>
                 </div>
               </div>
 
               <div class="btn_wrapper d-flex justify-content-start">
                 <button type="button" @click="addLetter(wordIndex)">{{
-        $t('PLACEHOLDERS.add_letter') }}</button>
+                  $t('PLACEHOLDERS.add_letter') }}</button>
               </div>
 
               <div class="delete  d-flex justify-content-end" v-if="words.length > 1">
                 <button type="button" @click="removeWord(wordIndex)">{{
-        $t('PLACEHOLDERS.delete_word') }}</button>
+                  $t('PLACEHOLDERS.delete_word') }}</button>
               </div>
             </div>
 

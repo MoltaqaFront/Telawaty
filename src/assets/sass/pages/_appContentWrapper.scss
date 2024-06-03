@@ -163,3 +163,26 @@
   color: brown !important;
   font-weight: 700;
 }
+
+form
+  .word_text
+  .input_wrapper.top_label.select_wrapper
+  .multiselect
+  .multiselect__tags
+  .multiselect__single {
+  font-family: sans-serif !important;
+  font-size: 18px;
+}
+
+form
+  .word_text
+  .input_wrapper.top_label.select_wrapper
+  .multiselect
+  .multiselect__content-wrapper
+  .multiselect__content
+  .multiselect__element
+  .multiselect__option
+  span {
+  font-family: sans-serif !important;
+  font-size: 18px;
+}

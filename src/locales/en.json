@@ -1202,7 +1202,11 @@
     "question_required_urdu": "Urdu question is required",
     "question_required_arabic": "Arabic question is required",
     "answer_required_arabic": "Arabic answer is required",
-    "answer_required_english": "English answer is required"
+    "answer_required_english": "English answer is required",
+
+    "title_in_arabic_required": "Title in Arabic is required",
+    "title_in_english_required": "Title in English is required",
+    "title_in_urdu_required": "Title in Urdu is required"
   },
 
   "MESSAGES": {

@@ -198,7 +198,7 @@ const routes = [
             meta: {
               middleware: [auth],
               requiresPermission: {
-                action: "clients show",
+                action: "clients index",
                 subject: "clients",
               },
             },

@@ -1212,7 +1212,11 @@
     "question_required_urdu": "العنصر باللغة الاردية مطلوب",
     "question_required_arabic": "العنصر باللغة العربية مطلوب",
     "answer_required_arabic": "النص بالعربية مطلوبة",
-    "answer_required_english": "النص بالانجليزية مطلوبة"
+    "answer_required_english": "النص بالانجليزية مطلوبة",
+
+    "title_in_arabic_required": "العنوان بالعربية مطلوب",
+    "title_in_english_required": "العنوان بالإنجليزية مطلوب",
+    "title_in_urdu_required": "العنوان بالأردية مطلوب"
   },
 
   "MESSAGES": {

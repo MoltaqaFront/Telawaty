@@ -33,7 +33,7 @@
                 </div>
 
                 <!-- @input="getLetters(wordIndex)" -->
-                <base-select-input class="col-lg-4 col-12" :optionsList="data.ayah_words"
+                <base-select-input class="col-lg-4 col-12 word_text" :optionsList="data.ayah_words"
                   :placeholder="$t('PLACEHOLDERS.word')" v-model.trim="words[wordIndex].word" />
 
                 <div class="col-lg-4 col-12">

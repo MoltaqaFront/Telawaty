@@ -14,26 +14,33 @@
           <form @submit.prevent="submitFilterForm">
             <div class="row justify-content-center align-items-center w-100">
               <!-- Start:: Name Input -->
-              <base-input col="3" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="filterOptions.name" />
+              <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.name')"
+                v-model.trim="filterOptions.name" />
               <!-- End:: Name Input -->
 
               <!-- Start:: Phone Input -->
-              <base-input col="2" type="tel" :placeholder="$t('PLACEHOLDERS.phone')" v-model.trim="filterOptions.phone" />
+              <base-input col="4" type="tel" :placeholder="$t('PLACEHOLDERS.phone')"
+                v-model.trim="filterOptions.phone" />
               <!-- End:: Phone Input -->
 
               <!-- Start:: email Input -->
-              <base-input col="3" type="email" :placeholder="$t('PLACEHOLDERS.email')"
+              <base-input col="4" type="email" :placeholder="$t('PLACEHOLDERS.email')"
                 v-model.trim="filterOptions.email" />
               <!-- End:: email Input -->
 
               <!-- Start:: Status Input -->
-              <base-select-input col="2" :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
+              <base-select-input col="4" :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
                 v-model="filterOptions.iso" />
               <!-- End:: Status Input -->
 
               <!-- Start:: Status Input -->
-              <base-select-input col="3" :optionsList="activeStatuses" :placeholder="$t('PLACEHOLDERS.app_status')"
+              <base-select-input col="4" :optionsList="activeStatuses" :placeholder="$t('PLACEHOLDERS.app_status')"
                 v-model="filterOptions.isActive" />
+              <!-- End:: Status Input -->
+
+              <!-- Start:: Status Input -->
+              <base-select-input col="4" :optionsList="Status" :placeholder="$t('PLACEHOLDERS.status')"
+                v-model="filterOptions.status" />
               <!-- End:: Status Input -->
             </div>
 
@@ -139,7 +146,7 @@
         <!-- Start:: Actions -->
         <template v-slot:[`item.actions`]="{ item }">
           <div class="actions">
-            <a-tooltip placement="bottom" v-if="$can('clients show', 'clients')">
+            <a-tooltip placement="bottom" v-if="$can('clients index', 'clients')">
               <template slot="title">
                 <span>{{ $t("BUTTONS.show") }}</span>
               </template>
@@ -187,7 +194,8 @@
               </form>
 
               <v-card-actions>
-                <v-btn class="modal_confirm_btn" @click="HandlingItemActivationStatus" :disabled="!(!!deactivateReason)">
+                <v-btn class="modal_confirm_btn" @click="HandlingItemActivationStatus"
+                  :disabled="!(!!deactivateReason)">
                   {{ $t("BUTTONS.ok") }}
                 </v-btn>
 
@@ -238,7 +246,7 @@
         <v-pagination class="py-0" square v-model="paginations.current_page" :length="paginations.last_page"
           :total-visible="6" @input="updateRouterQueryParam($event)" :prev-icon="getAppLocale == 'ar' ? 'fal fa-angle-right' : 'fal fa-angle-left'
             " :next-icon="getAppLocale == 'ar' ? 'fal fa-angle-left' : 'fal fa-angle-right'
-    " />
+              " />
       </div>
     </template>
     <!-- End:: Pagination -->
@@ -275,6 +283,26 @@ export default {
         },
       ];
     },
+
+    Status() {
+      return [
+        {
+          id: 1,
+          name: this.$t("STATUS.active"),
+          value: 1,
+        },
+        {
+          id: 2,
+          name: this.$t("STATUS.notActive"),
+          value: 0,
+        },
+        {
+          id: null,
+          name: this.$t("STATUS.all"),
+          value: null,
+        },
+      ];
+    },
   },
 
   data() {
@@ -291,6 +319,7 @@ export default {
         phone: null,
         email: null,
         iso: null,
+        status: null,
         isActive: null,
       },
       // End:: Filter Data
@@ -432,6 +461,7 @@ export default {
             mobile: this.filterOptions.phone,
             email: this.filterOptions.email,
             status: this.filterOptions.isActive?.value,
+            is_active: this.filterOptions.status?.value,
           },
         });
         this.loading = false;
