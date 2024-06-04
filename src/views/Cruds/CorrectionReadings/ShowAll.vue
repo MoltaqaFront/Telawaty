@@ -54,7 +54,7 @@
           </button>
         </div>
 
-        <div class="title_route_wrapper" v-if="$can('surahs create', 'surahs')">
+        <div class="title_route_wrapper" v-if="$can('correctionReading create', 'correctionReading')">
           <router-link to="/correction-reading/create">
             {{ $t("PLACEHOLDERS.add_new_content") }}
           </router-link>
@@ -98,7 +98,7 @@
         <!-- End:: created_at -->
 
         <template v-slot:[`item.is_active`]="{ item }">
-          <div class="activation" dir="ltr" style="z-index: 1" v-if="$can('surahs activate', 'surahs')">
+          <div class="activation" dir="ltr" style="z-index: 1" v-if="$can('correctionReading activate', 'correctionReading')">
             <v-switch class="mt-2" color="success" v-model="item.is_active" hide-details
               @change="changeActivationStatus(item)"></v-switch>
           </div>
@@ -118,7 +118,7 @@
         <template v-slot:[`item.actions`]="{ item }">
           <div class="actions">
 
-            <a-tooltip placement="bottom" v-if="$can('surahs show', 'surahs')">
+            <a-tooltip placement="bottom" v-if="$can('correctionReading show', 'correctionReading')">
               <template slot="title">
                 <span>{{ $t("BUTTONS.show") }}</span>
               </template>
@@ -127,7 +127,7 @@
               </button>
             </a-tooltip>
 
-            <a-tooltip placement="bottom" v-if="$can('surahs edit', 'surahs')">
+            <a-tooltip placement="bottom" v-if="$can('correctionReading edit', 'correctionReading')">
               <template slot="title">
                 <span>{{ $t("BUTTONS.edit") }}</span>
               </template>
@@ -136,7 +136,7 @@
               </button>
             </a-tooltip>
 
-            <a-tooltip placement="bottom" v-if="$can('surahs delete', 'surahs')">
+            <a-tooltip placement="bottom" v-if="$can('correctionReading delete', 'correctionReading')">
               <template slot="title">
                 <span>{{ $t("BUTTONS.delete") }}</span>
               </template>

@@ -22,15 +22,15 @@
 
           <!-- Start:: Name Input -->
           <!-- Start:: Ar Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.contentAr')" v-model.trim="data.contentAr"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.contentAr')" v-model.trim="data.contentAr"
             required />
           <!-- End:: Ar Content Text Editor -->
 
           <!-- Start:: En Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.contentEn')" v-model.trim="data.contentEn"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.contentEn')" v-model.trim="data.contentEn"
             required />
 
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.content_in_urdu')" v-model.trim="data.contentEd"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.content_in_urdu')" v-model.trim="data.contentEd"
             required />
           <!-- Start:: En Content Text Editor -->
 

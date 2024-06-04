@@ -30,14 +30,19 @@
       <form>
         <div class="row">
           <!-- Start:: Image Upload Input -->
-          <base-image-upload-input col="12" identifier="client_image" :placeholder="$t('PLACEHOLDERS.personalImage')"
-            :preSelectedImage="data.image" disabled class="disabled_input" />
+          <!-- <base-image-upload-input col="12" identifier="client_image" :placeholder="$t('PLACEHOLDERS.personalImage')"
+            :preSelectedImage="data.image" disabled class="disabled_input" /> -->
           <!-- End:: Image Upload Input -->
 
           <!-- Start:: Ar Name Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name" disabled
             class="disabled_input" />
           <!-- End:: Ar Name Input -->
+
+             <!-- Start:: Status Input -->
+              <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.country_code')"
+                v-model="data.iso" disabled/>
+              <!-- End:: Status Input -->
 
           <!-- Start:: Phone Input -->
           <base-input col="6" type="tel" :placeholder="$t('PLACEHOLDERS.phone')" v-model.trim="data.phone" readonly
@@ -55,8 +60,8 @@
           <!-- End:: Email Input -->
 
           <!-- Start:: Joining Date Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.joiningDate')" v-model.trim="data.joiningDate"
-            readonly class="disabled_input" />
+          <!-- <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.joiningDate')" v-model.trim="data.joiningDate"
+            readonly class="disabled_input" /> -->
           <!-- End:: Joining Date Input -->
         </div>
       </form>
@@ -99,6 +104,7 @@ export default {
       data: {
         image: null,
         name: null,
+        iso: null,
         phone: null,
         secondPhone: null,
         email: null,
@@ -122,15 +128,20 @@ export default {
           url: `clients/${this.$route.params.id}`,
         });
         // console.log("DATA =>", res.data.data);
-        this.data.image = res.data.data.client_details.image;
-        this.data.name = res.data.data.client_details.name;
-        this.data.phone = res.data.data.client_details.mobile;
-        this.data.email = res.data.data.client_details.email;
-        this.data.joiningDate = res.data.data.client_details.created_at;
-        this.data.active = res.data.data.client_details.is_active;
-        // this.data.secondPhone = res.data.data.client_details.second_phone;
-        this.data.numberOfVisits = res.data.data.client_details.login_counter;
-        this.data.lastVisit = res.data.data.client_details.last_login;
+        // this.data.image = res.data.data.User.image;
+        this.data.name = res.data.data.User.name;
+        this.data.phone = res.data.data.User.mobile;
+        this.data.email = res.data.data.User.email;
+        // this.data.joiningDate = res.data.data.User.created_at;
+        this.data.active = res.data.data.User.is_active;
+          if (res.data.data.User.code && res.data.data.User.flag) {
+            this.data.iso = `${res.data.data.User.code} (${res.data.data.User.flag})`;
+          } else {
+            this.data.iso = '';
+          }
+        // this.data.iso = `${res.data.data.User.code} (${res.data.data.User.flag})` ;
+        this.data.numberOfVisits = res.data.data.User.login_counter;
+        this.data.lastVisit = res.data.data.User.last_login;
       } catch (error) {
         console.log(error.response.data.message);
       }

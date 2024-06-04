@@ -17,7 +17,7 @@
 
           <!-- Start:: Name Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name"
-            @input="validateInput" required />
+            required />
           <!-- End:: Name Input -->
 
           <!-- Start:: Email Input -->
@@ -126,10 +126,10 @@ export default {
 
   methods: {
 
-    validateInput() {
-      // Remove non-Arabic characters from the input
-      this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
-    },
+    // validateInput() {
+    //   // Remove non-Arabic characters from the input
+    //   this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
+    // },
     // Start:: Vuex Actions
     ...mapActions({
       getRoles: "ApiGetsModule/getRoles",

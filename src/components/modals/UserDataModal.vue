@@ -20,6 +20,11 @@
               <base-input type="email" :placeholder="$t('PLACEHOLDERS.email')" v-model.trim="data.email" required />
               <!-- End:: Email Input -->
 
+              <!-- Start:: Status Input -->
+              <base-select-input  :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
+                v-model="data.iso" />
+              <!-- End:: Status Input -->
+
               <!-- Start:: tel Input -->
               <base-input type="tel" :placeholder="$t('PLACEHOLDERS.phone')" v-model.trim="data.phone" required />
               <!-- End:: tel Input -->
@@ -94,10 +99,13 @@ export default {
         name: null,
         email: null,
         phone: null,
+        iso: null,
         enableEditPassword: false,
         password: null,
         passwordConfirmation: null,
       },
+
+       AllIso: []
       // End:: Data Collection To Send
     };
   },
@@ -150,6 +158,7 @@ export default {
         this.data.image.path = res.data.data.user.image;
         this.data.name = res.data.data.user.name;
         this.data.email = res.data.data.user.email;
+        this.data.iso = { id: res.data.data.user.code, name: res.data.data.user.code };;
         this.data.phone = res.data.data.user.mobile;
         // End:: Set Data
       } catch (error) {
@@ -233,6 +242,7 @@ export default {
       }
       REQUEST_DATA.append("name", this.data.name);
       REQUEST_DATA.append("mobile", this.data.phone);
+      REQUEST_DATA.append("code", this.data.iso?.id);
       REQUEST_DATA.append("email", this.data.email);
       if (this.data.enableEditPassword) {
         REQUEST_DATA.append("password", this.data.password);
@@ -259,6 +269,23 @@ export default {
       }
     },
     // End:: Submit Form
+
+     async getIso() {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `countries`,
+        });
+        this.AllIso = res.data.data.map(item => ({ "id": item.dialling_code, "name": `${item.name} ${item.dialling_code}` }));
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
+      }
+    },
+  },
+   created() {
+    this.getIso();
+    // End:: Fire Methods
   },
 };
 </script>

@@ -11,26 +11,26 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
-          <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.titleAr')" v-model.trim="data.nameAr"
+          <!-- <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.titleAr')" v-model.trim="data.nameAr"
             required />
 
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.titleEn')" v-model.trim="data.nameEn"
             required />
 
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.address_in_urdu')" v-model.trim="data.nameEd"
-            required />
+            required /> -->
 
           <!-- Start:: Name Input -->
           <!-- Start:: Ar Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.contentAr')" v-model.trim="data.contentAr"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.contentAr')" v-model.trim="data.contentAr"
             required />
           <!-- End:: Ar Content Text Editor -->
 
           <!-- Start:: En Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.contentEn')" v-model.trim="data.contentEn"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.contentEn')" v-model.trim="data.contentEn"
             required />
 
-          <base-text-editor col="4" :placeholder="$t('PLACEHOLDERS.content_in_urdu')" v-model.trim="data.contentEd"
+          <base-text-editor col="6" :placeholder="$t('PLACEHOLDERS.content_in_urdu')" v-model.trim="data.contentEd"
             required />
           <!-- Start:: En Content Text Editor -->
 
@@ -124,9 +124,9 @@ export default {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
       REQUEST_DATA.append("key", "trip");
-      REQUEST_DATA.append("title[en]", this.data.nameEn);
-      REQUEST_DATA.append("title[ar]", this.data.nameAr);
-      REQUEST_DATA.append("title[ad]", this.data.nameEd);
+      // REQUEST_DATA.append("title[en]", this.data.nameEn);
+      // REQUEST_DATA.append("title[ar]", this.data.nameAr);
+      // REQUEST_DATA.append("title[ad]", this.data.nameEd);
       REQUEST_DATA.append("value[ar]", this.data.contentAr);
       REQUEST_DATA.append("value[en]", this.data.contentEn);
       REQUEST_DATA.append("value[ad]", this.data.contentEd);

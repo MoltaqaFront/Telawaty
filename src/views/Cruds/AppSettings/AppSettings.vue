@@ -11,9 +11,9 @@
           <!-- End:: Name Input -->
 
           <!-- Start:: Name Input -->
-          <base-select-input col="6" v-if="all_surahsData" :optionsList="all_surahsData"
+          <!-- <base-select-input col="6" v-if="all_surahsData" :optionsList="all_surahsData"
             :placeholder="$t('PLACEHOLDERS.available_chapters_for_trial_users')" multiple
-            v-model.trim="data.select_surahs" />
+            v-model.trim="data.select_surahs" /> -->
           <!-- End:: Name Input -->
 
           <!-- Start:: Name Input -->
@@ -86,7 +86,7 @@ export default {
           url: `settings/get-surahs`,
         });
         // console.log("DATA =>", res.data.data);
-        this.data.select_surahs = res.data.data.select_surahs;
+        // this.data.select_surahs = res.data.data.select_surahs;
         this.data.duration = res.data.data.duration;
         this.data.repeat_app = res.data.data.repeat_app;
 
@@ -113,11 +113,11 @@ export default {
         REQUEST_DATA.append("value[repeat_app]", this.data.repeat_app);
       }
 
-      if (this.data.select_surahs) {
-        this.data.select_surahs.forEach((element, index) => {
-          REQUEST_DATA.append(`value[surah_ids][${index}]`, element.id);
-        });
-      }
+      // if (this.data.select_surahs) {
+      //   this.data.select_surahs.forEach((element, index) => {
+      //     REQUEST_DATA.append(`value[surah_ids][${index}]`, element.id);
+      //   });
+      // }
 
       // Start:: Append Request Data
 
@@ -149,11 +149,6 @@ export default {
       else if (!this.data.repeat_app) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.trial_repetition_not_empty"));
-        return;
-      }
-      else if (!this.data.select_surahs || this.data.select_surahs.length === 0) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.available_chapters_not_empty"));
         return;
       }
       else {

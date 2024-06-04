@@ -31,12 +31,12 @@
 
           <!-- Start:: book_name Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.book_name')" v-model.trim="data.name"
-            @input="validateInput" required />
+            required />
           <!-- End:: book_name Input -->
 
           <!-- Start:: author_name Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.author_name')" v-model.trim="data.author_name"
-            @input="validateInput" required />
+            required />
           <!-- End:: Name Input -->
 
           <!-- Start:: release_date Input -->
@@ -111,10 +111,10 @@ export default {
       }
     },
 
-    validateInput() {
-      // Remove non-Arabic characters from the input
-      this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
-    },
+    // validateInput() {
+    //   // Remove non-Arabic characters from the input
+    //   this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
+    // },
 
     // Start:: validate Form Inputs
     validateFormInputs() {

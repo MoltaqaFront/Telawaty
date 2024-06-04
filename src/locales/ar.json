@@ -30,7 +30,7 @@
     },
 
     "questions": {
-      "title": "العناصر الرئيسية",
+      "title": "محتوي الموقع التعريفي",
       "name": "اسم العنصر",
       "answer": "النص",
       "bodyAr": "العنصر باللغة العربية",
@@ -387,7 +387,7 @@
     "verified": "تم التحقق",
     "notVerified": "لم يتم التحقق",
     "active": "مفعل",
-    "notActive": "غير مفعل",
+    "notActive": "معطل",
     "replied": "تم الرد",
     "notReplied": "لم يتم الرد",
     "request": "طلب",

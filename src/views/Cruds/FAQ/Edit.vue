@@ -24,17 +24,17 @@
             @input="removeArabicCharacters" @copy="onCopy" @paste="onPaste" required />
 
           <!-- Start:: Ar Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('SIDENAV.questions.answerAr')" v-model.trim="data.answerAr"
+          <base-text-editor col="6" :placeholder="$t('SIDENAV.questions.answerAr')" v-model.trim="data.answerAr"
             required />
           <!-- End:: Ar Content Text Editor -->
 
           <!-- Start:: Ar Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('SIDENAV.questions.answerEn')" v-model.trim="data.answerEn"
+          <base-text-editor col="6" :placeholder="$t('SIDENAV.questions.answerEn')" v-model.trim="data.answerEn"
             required />
           <!-- End:: Ar Content Text Editor -->
 
           <!-- Start:: Ar Content Text Editor -->
-          <base-text-editor col="4" :placeholder="$t('SIDENAV.questions.answerEd')" v-model.trim="data.answerEd"
+          <base-text-editor col="6" :placeholder="$t('SIDENAV.questions.answerEd')" v-model.trim="data.answerEd"
             required />
           <!-- End:: Ar Content Text Editor -->
 

@@ -320,7 +320,7 @@ export default {
 
   created() {
     // Start:: Fire Methods
-    window.addEventListener("click", () => {
+     window.addEventListener("click", () => {
       this.filterFormIsActive = false;
     });
     if (this.$route.query.page) {

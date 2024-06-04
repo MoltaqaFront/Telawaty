@@ -14,32 +14,28 @@
           <form @submit.prevent="submitFilterForm">
             <div class="row justify-content-center align-items-center w-100">
               <!-- Start:: Name Input -->
-              <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.name')"
+              <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.name')"
                 v-model.trim="filterOptions.name" />
               <!-- End:: Name Input -->
 
-              <!-- Start:: Phone Input -->
-              <base-input col="4" type="tel" :placeholder="$t('PLACEHOLDERS.phone')"
-                v-model.trim="filterOptions.phone" />
-              <!-- End:: Phone Input -->
-
-              <!-- Start:: email Input -->
-              <base-input col="4" type="email" :placeholder="$t('PLACEHOLDERS.email')"
-                v-model.trim="filterOptions.email" />
-              <!-- End:: email Input -->
-
               <!-- Start:: Status Input -->
-              <base-select-input col="4" :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
+              <base-select-input col="6" :optionsList="AllIso" :placeholder="$t('PLACEHOLDERS.country_code')"
                 v-model="filterOptions.iso" />
               <!-- End:: Status Input -->
 
+              <!-- Start:: Phone Input -->
+              <base-input col="6" type="tel" :placeholder="$t('PLACEHOLDERS.phone')"
+                v-model.trim="filterOptions.phone" />
+              <!-- End:: Phone Input -->
+
+  
               <!-- Start:: Status Input -->
-              <base-select-input col="4" :optionsList="activeStatuses" :placeholder="$t('PLACEHOLDERS.app_status')"
+              <base-select-input col="6" :optionsList="activeStatuses" :placeholder="$t('PLACEHOLDERS.app_status')"
                 v-model="filterOptions.isActive" />
               <!-- End:: Status Input -->
 
               <!-- Start:: Status Input -->
-              <base-select-input col="4" :optionsList="Status" :placeholder="$t('PLACEHOLDERS.status')"
+              <base-select-input col="6" :optionsList="Status" :placeholder="$t('PLACEHOLDERS.status')"
                 v-model="filterOptions.status" />
               <!-- End:: Status Input -->
             </div>
@@ -187,15 +183,15 @@
               <v-card-title class="text-h5 justify-center" v-if="itemToChangeActivationStatus">
                 {{ $t("TITLES.DeactivateConfirmingMessage", { name: itemToChangeActivationStatus.name }) }}
               </v-card-title>
-
+              <!-- 
               <form class="w-100">
                 <base-input col="12" rows="3" type="textarea" :placeholder="$t('PLACEHOLDERS.deactivateReason')"
                   v-model.trim="deactivateReason" required />
-              </form>
+              </form> -->
 
               <v-card-actions>
                 <v-btn class="modal_confirm_btn" @click="HandlingItemActivationStatus"
-                  :disabled="!(!!deactivateReason)">
+                  >
                   {{ $t("BUTTONS.ok") }}
                 </v-btn>
 
@@ -276,11 +272,6 @@ export default {
           name: this.$t("PLACEHOLDERS.paid_version"),
           value: 0,
         },
-        {
-          id: 3,
-          name: this.$t("STATUS.all"),
-          value: null,
-        },
       ];
     },
 
@@ -295,11 +286,6 @@ export default {
           id: 2,
           name: this.$t("STATUS.notActive"),
           value: 0,
-        },
-        {
-          id: null,
-          name: this.$t("STATUS.all"),
-          value: null,
         },
       ];
     },
@@ -317,7 +303,6 @@ export default {
       filterOptions: {
         name: null,
         phone: null,
-        email: null,
         iso: null,
         status: null,
         isActive: null,
@@ -341,19 +326,19 @@ export default {
           sortable: false,
         },
         {
+          text: this.$t("PLACEHOLDERS.country_code"),
+          value: "code_with_flag",
+          align: "center",
+          sortable: false,
+        },
+        {
           text: this.$t("TABLES.Clients.phone"),
           value: "mobile",
           align: "center",
           sortable: false,
         },
         {
-          text: this.$t("TABLES.Clients.email"),
-          value: "email",
-          align: "center",
-          sortable: false,
-        },
-        {
-          text: this.$t("TABLES.Clients.joiningDate"),
+          text: this.$t("PLACEHOLDERS.subscription_date"),
           value: "created_at",
           align: "center",
           sortable: false,
@@ -421,8 +406,9 @@ export default {
     async resetFilter() {
       this.filterOptions.name = null;
       this.filterOptions.phone = null;
-      this.filterOptions.email = null;
+      this.filterOptions.iso = null;
       this.filterOptions.isActive = null;
+      this.filterOptions.status = null;
       if (this.$route.query.page !== '1') {
         await this.$router.push({ path: '/clients/all', query: { page: 1 } });
       }
@@ -459,9 +445,9 @@ export default {
             page: this.paginations.current_page,
             name: nameParam,
             mobile: this.filterOptions.phone,
-            email: this.filterOptions.email,
-            status: this.filterOptions.isActive?.value,
-            is_active: this.filterOptions.status?.value,
+            code: this.filterOptions.iso?.id,
+            app_status: this.filterOptions.isActive?.value,
+            status: this.filterOptions.status?.value,
           },
         });
         this.loading = false;
@@ -506,15 +492,15 @@ export default {
     async HandlingItemActivationStatus(selectedItem) {
       this.dialogDeactivate = false;
       let targetItem = this.itemToChangeActivationStatus ? this.itemToChangeActivationStatus : selectedItem;
-      const REQUEST_DATA = {};
-      // Start:: Append Request Data
-      REQUEST_DATA.message = this.deactivateReason;
+      // const REQUEST_DATA = {};
+      // // Start:: Append Request Data
+      // REQUEST_DATA.message = this.deactivateReason;
       // Start:: Append Request Data
       try {
         await this.$axios({
           method: "POST",
           url: `clients/toggle/${targetItem.id}`,
-          data: REQUEST_DATA,
+          // data: REQUEST_DATA,
         });
         this.$message.success(this.$t("MESSAGES.changeActivation"));
         this.setTableRows();
@@ -559,7 +545,7 @@ export default {
           method: "GET",
           url: `countries`,
         });
-        this.AllIso = res.data.data.map(item => ({ "id": item.code, "name": `${item.name} ${item.dialling_code}` }));
+        this.AllIso = res.data.data.map(item => ({ "id": item.dialling_code, "name": `${item.name} ${item.dialling_code}` }));
       } catch (error) {
         this.loading = false;
         console.log(error.response.data.message);

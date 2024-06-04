@@ -186,3 +186,30 @@ form
   font-family: sans-serif !important;
   font-size: 18px;
 }
+
+:root .dark_theme .notification {
+  background: #000;
+}
+
+:root .dark_theme .multiselect--disabled {
+  background: var(--theme_main_bg_clr);
+}
+:root .dark_theme .app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .side_routes_wrapper .ant-menu .ant-menu-submenu .ant-menu-submenu-title span span {
+  color: #fff;
+}
+
+.side_nav_links_wrapper {
+  a.router-link-exact-active.router-link-active {
+    background-color: rgba($color: #b97e12, $alpha: 0.5);
+    padding: 10px;
+  }
+}
+
+.app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .home_route a.router-link-exact-active .route_text,
+.app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .home_route a:hover .route_text {
+  color: #000;
+}
+
+.text_editor  .quillWrapper {
+  width: 520px;
+}

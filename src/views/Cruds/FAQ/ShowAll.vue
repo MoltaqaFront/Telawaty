@@ -285,12 +285,12 @@ export default {
         //   align: "center",
         //   sortable: false,
         // },
-        {
-          text: this.$t("SIDENAV.questions.date"),
-          value: "created_at",
-          sortable: false,
-          align: "center",
-        },
+        // {
+        //   text: this.$t("SIDENAV.questions.date"),
+        //   value: "created_at",
+        //   sortable: false,
+        //   align: "center",
+        // },
         {
           text: this.$t("TABLES.Clients.actions"),
           value: "actions",

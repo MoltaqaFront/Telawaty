@@ -136,7 +136,7 @@
       <!-- End:: contactuses Route -->
 
       <!-- Start:: Side Nav Routes -->
-      <div class="side_routes_wrapper">
+      <div class="side_routes_wrapper"  v-if="$can('settings index', 'settings')">
         <a-menu style="width: 100%" mode="vertical" :open-keys="openKeys" @openChange="onOpenChange">
           <!-- Start:: Side Nav Tab -->
           <a-sub-menu v-for="item in sideNavbarList" :key="item.key" :data-type="!item.children ? 'single_route' : ''">

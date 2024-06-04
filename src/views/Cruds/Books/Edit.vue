@@ -13,7 +13,7 @@
 
           <!-- Start:: Name Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.book_name')" v-model.trim="data.name"
-            @input="validateInput" required />
+             required />
           <!-- End:: Name Input -->
 
           <!-- Start:: Upload File Input -->
@@ -114,10 +114,10 @@ export default {
       }
     },
 
-    validateInput() {
-      // Remove non-Arabic characters from the input
-      this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
-    },
+    // validateInput() {
+    //   // Remove non-Arabic characters from the input
+    //   this.data.name = this.data.name.replace(/[^\u0600-\u06FF\s]/g, "");
+    // },
 
     // Start:: validate Form Inputs
     validateFormInputs() {

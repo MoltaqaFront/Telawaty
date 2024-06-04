@@ -56,3 +56,7 @@ body {
     }
   }
 }
+body[dir=ltr] .app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .side_routes_wrapper .ant-menu .ant-menu-submenu .ant-menu-submenu-title span span,
+body[dir=ltr] .app_structure_wrapper .side_nav_wrapper .side_nav_links_wrapper .side_routes_wrapper .ant-menu .ant-menu-submenu .ant-menu-submenu-title a span {
+  color: #000 !important;
+}
