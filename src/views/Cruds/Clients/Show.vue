@@ -140,8 +140,8 @@ export default {
             this.data.iso = '';
           }
         // this.data.iso = `${res.data.data.User.code} (${res.data.data.User.flag})` ;
-        this.data.numberOfVisits = res.data.data.User.login_counter;
-        this.data.lastVisit = res.data.data.User.last_login;
+        this.data.numberOfVisits = res.data.data.User.num_times;
+        this.data.lastVisit = res.data.data.User.last_enter;
       } catch (error) {
         console.log(error.response.data.message);
       }

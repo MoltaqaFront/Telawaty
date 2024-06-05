@@ -262,7 +262,7 @@ export default {
         this.setAuthenticatedUserData({
           name: res.data.data.user.name,
         });
-        this.toggleModal();
+        this.$router.push({ path: '/home' });
       } catch (error) {
         this.isWaitingRequest = false;
         this.$message.error(error.response.data.message);

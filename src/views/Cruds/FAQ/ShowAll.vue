@@ -97,7 +97,7 @@
           <template>
             <h6 class="text-danger" v-if="item.answer.length === 0"> {{ $t("TABLES.noData") }} </h6>
             <div class="actions" v-else>
-              <button class="btn_show" @click="showReplayModal(item.answer)">
+              <button class="btn_show" @click="showReplayModal(stripTags(item.answer))">
                 <i class="fal fa-file-alt"></i>
               </button>
             </div>
@@ -427,7 +427,11 @@ export default {
     },
     showReplayModal(replay) {
       this.dialogDescription = true;
-      this.selectedDescriptionTextToShow = replay;
+      this.selectedDescriptionTextToShow = replay;s
+    },
+    stripTags(html) {
+      // Use a regular expression to remove HTML tags
+     return html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
     },
     async confirmDeleteItem() {
       try {

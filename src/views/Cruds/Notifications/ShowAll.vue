@@ -193,12 +193,12 @@ export default {
           align: "center",
           sortable: false,
         },
-        {
-          text: this.$t("TABLES.Notifications.notification"),
-          value: "body",
-          align: "center",
-          sortable: false,
-        },
+        // {
+        //   text: this.$t("TABLES.Notifications.notification"),
+        //   value: "body",
+        //   align: "center",
+        //   sortable: false,
+        // },
         // {
         //   text: this.$t("TABLES.Notifications.receiverType"),
         //   value: "receiver_type",
