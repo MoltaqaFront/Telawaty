@@ -16,8 +16,8 @@
             @input="getVerseNumbers, words = [], data.verse_number = null" disabled />
 
           <base-select-input col="6" v-if="all_surahsData && data.select_surahs" :optionsList="data.verseNumbers"
-            :placeholder="$t('PLACEHOLDERS.verse_number')" v-model.trim="data.verse_number" @input="getWords, words = []"
-            disabled />
+            :placeholder="$t('PLACEHOLDERS.verse_number')" v-model.trim="data.verse_number"
+            @input="getWords, words = []" disabled />
 
           <div v-if="all_surahsData && data.select_surahs && data.verseNumbers && data.verse_number">
 
@@ -41,7 +41,7 @@
                       <a :href="word.voice" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-file"></i>
                       </a>
-                      <!-- <button class="clear" @click="removeVoice(wordIndex)">&#10006;</button> -->
+
                     </span>
                   </div>
                 </div>
@@ -60,10 +60,6 @@
                   <base-select-input class="col-lg-6 col-12" :optionsList="coloring"
                     :placeholder="$t('PLACEHOLDERS.coloring')" v-model.trim="letter.letter_color" disabled />
 
-                  <div class="delete d-flex justify-content-center">
-                    <!-- <button type="button" @click="removeLetter(wordIndex, letterIndex)">{{
-                      $t('PLACEHOLDERS.delete_letter') }}</button> -->
-                  </div>
                 </div>
               </div>
 
@@ -150,192 +146,37 @@ export default {
     }),
     // End:: Vuex Actions
 
-    addWord() {
-      this.words.push({
-        word_id: `word_${this.words.length + 1}`, // Unique identifier for each word
-        voice: '',
-        word_color: '',
-        letters_array: []
-      });
-    },
-
-    removeWord(index) {
-      this.words.splice(index, 1);
-    },
-
-    addLetter(wordIndex) {
-      this.words[wordIndex].letters_array.push({
-        letter_id: '',
-        letter_color: ''
-      });
-    },
-
-    removeLetter(wordIndex, letterIndex) {
-      this.words[wordIndex].letters_array.splice(letterIndex, 1);
-    },
-
-    onVoiceFileChange(wordIndex) {
-      const file = event.target.files[0];
-      this.words[wordIndex].voice = file;
-    },
-    removeVoice(wordIndex) {
-      this.words[wordIndex].voice = null;
-
-      // Clear the file input value
-      const fileInput = document.getElementById(`fileInput_${wordIndex}`);
-      if (fileInput) {
-        fileInput.value = '';
-      }
-    },
-    // Start:: validate Form Inputs
-    validateFormInputs() {
-      this.isWaitingRequest = true;
-
-      if (!this.data.select_surahs) {
-        this.isWaitingRequest = false;
-        this.$message.error(this.$t("VALIDATION.select_surah_name"));
-        return;
-      } else {
-        this.submitForm();
-        return;
-      }
-    },
-    // End:: validate Form Inputs
-
-    // Start:: Submit Form
-    async submitForm() {
-      const REQUEST_DATA = new FormData();
-      // Append Uploaded File
-      REQUEST_DATA.append("surah_id", this.data.select_surahs?.id);
-      REQUEST_DATA.append("aya_id", this.data.verse_number?.id);
-
-      this.words.forEach((word, word_index) => {
-        // start:: word data
-        if (this.words[word_index].word_id.id) {
-          REQUEST_DATA.append(`words[${word_index}][id]`, this.words[word_index].word_id.id);
-        }
-        if (word.voice) {
-          REQUEST_DATA.append(`words[${word_index}][voice]`, word.voice);
-        }
-        if (word.word_color.value) {
-          REQUEST_DATA.append(`words[${word_index}][color]`, word.word_color.value);
-        }
-        // end:: word data
-
-        // start:: letter data
-        word.letters_array.forEach((letter, letter_index) => {
-          REQUEST_DATA.append(`letters[${word_index}][letter_id]`, +letter.letter_id?.id);
-          REQUEST_DATA.append(`letters[${word_index}][word_id]`, this.words[word_index].word_id.id);
-          REQUEST_DATA.append(`letters[${word_index}][color]`, letter.letter_color.value);
-        });
-        // end:: letter data
-
-      });
-
-      // Start:: Append Request Data
-
-      try {
-        await this.$axios({
-          method: "POST",
-          url: `correction-reading`,
-          data: REQUEST_DATA,
-        });
-        this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
-        this.$router.push({ path: "/correction-reading/all" });
-      } catch (error) {
-        this.isWaitingRequest = false;
-        this.$message.error(error.response.data.message);
-      }
-    },
-    // End:: Submit Form
-
-    async getVerseNumbers() {
-      try {
-        // this.data.verseNumbers = [];
-        // this.data.verse_number = null;
-        let res = await this.$axios({
-          method: "GET",
-          url: `words-ayats/${this.data.select_surahs.id}`,
-        });
-        this.data.verseNumbers = res.data;
-      } catch (error) {
-        this.loading = false;
-        console.log(error.response.data.message);
-      }
-    },
-
-    async getWords() {
-
-      try {
-        let res = await this.$axios({
-          method: "GET",
-          url: `words-ayats/${this.data.select_surahs.id}/${this.data.verse_number.id}`,
-        });
-        this.data.ayah_words = res.data;
-      } catch (error) {
-        this.loading = false;
-        console.log(error.response.data.message);
-      }
-    },
-
-    async getLetters(wordIndex) {
-      try {
-
-        let res = await this.$axios({
-          method: "GET",
-          url: `words-ayats/${this.data.select_surahs.id}/${this.data.verse_number.id}/${this.words[wordIndex].word_id.id}`,
-        });
-        this.data.letters = res.data;
-      } catch (error) {
-        this.loading = false;
-        console.log(error.response.data.message);
-      }
-
-    },
-
-    // start show data
     async dataToEdit() {
       try {
         let res = await this.$axios({
           method: "GET",
           url: `correction-reading/${this.$route.params.id}`,
         });
+
         this.data.select_surahs = { id: res.data.data.CorrectionReading.surah_id, name: res.data.data.CorrectionReading.surah };
         this.data.verse_number = { id: res.data.data.CorrectionReading.aya_id, name: res.data.data.CorrectionReading.aya_id };
 
         // Transform the API response
         const transformedData = res.data.data.CorrectionReading.words.map(word => ({
-          ...word,
+          word: word.word ? { id: word.word.id, name: word.word.content } : null,
 
-          word_color: word.word_color ? {
-            id: 0,
-            name: this.$t(`PLACEHOLDERS.${word.word_color}_color`),
-            value: word.word_color
-          } : null,
+          voice: word.voice || '',
 
+          word_color: word.color ? { id: word.color, name: this.$t(`PLACEHOLDERS.${word.color}_color`), value: word.color } : null,
           letters_array: word.letters.map(letter => ({
-            ...letter,
-            letter_color: letter.color ? {
-              id: 0,
-              name: this.$t(`PLACEHOLDERS.${letter.color}_color`),
-              value: letter.color
-            } : null
+            letter_id: letter.id ? { id: letter.letter_id, name: letter.letter_content, value: letter.letter_id } : null,
+            letter_color: letter.color ? { id: letter.color, name: this.$t(`PLACEHOLDERS.${letter.color}_color`), value: letter.color } : null
           }))
         }));
 
         // Set the transformed data
-
         this.words = transformedData;
-        console.log(transformedData)
-        // Set the transformed data
-
+        console.log(transformedData);
       } catch (error) {
         this.loading = false;
         console.log(error.response.data.message);
       }
     },
-
     // end show data
 
   },
