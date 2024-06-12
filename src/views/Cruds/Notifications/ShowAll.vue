@@ -295,6 +295,7 @@ export default {
           item.serialNumber = (this.paginations.current_page - 1) * this.paginations.items_per_page + index + 1;
         });
         this.tableRows = res.data.data;
+        alert(222222);
         this.paginations.last_page = res.data.meta.last_page;
         this.paginations.items_per_page = res.data.meta.per_page;
       } catch (error) {

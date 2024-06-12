@@ -53,6 +53,11 @@
               <i class="fal fa-file-pdf"></i>
             </template>
           </base-button>
+
+           <button class="btn_delete" @click="confirmExcel ()">
+            {{ $t("BUTTONS.downloadExcel") }}
+          </button>
+
         </div>
 
       </div>
@@ -344,7 +349,20 @@ export default {
       }
     },
     // End:: Set Table Rows
-
+    async confirmExcel() {
+      window.location.href = `https://backend.tilawati.net/dashboard-api/v1/excel-correction-Export`;
+      // try {
+      //   let res = await this.$axios({
+      //     method: "GET",
+      //     url: `financials/export-excel`,
+      //   });
+      //   this.excel = res.data.data;
+      //   // this.dialogPdf = false;
+      // } catch (error) {
+      //   this.dialogExcel = false;
+      //   this.$message.error(error.response.data.message);
+      // }
+    },
     // Start:: Handling Download Files
     async downloadPdf() {
       await this.$refs.html2Pdf.generatePdf();
