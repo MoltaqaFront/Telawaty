@@ -8,12 +8,9 @@
         <transition-group name="fade" v-if="receivedMessages.length">
           <div class="notification" v-for="(message, index) in receivedMessages" :key="'k' + index">
 
-            <div v-if="message.type == 'client'">
-              <router-link to="/clients/all">
+            <div >
                 <h3>{{ message.title }}</h3>
                 <p>{{ message.body }}</p>
-              </router-link>
-
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
                 @click="NotificationsReaded(message.id)">
                 <i class="fas fa-check-double"></i>

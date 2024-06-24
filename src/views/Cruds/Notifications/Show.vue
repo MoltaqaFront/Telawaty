@@ -8,61 +8,71 @@
         <transition-group name="fade" v-if="receivedMessages.length">
           <div class="notification" v-for="(message, index) in receivedMessages" :key="'k' + index">
 
-            <!-- start :: rate -->
-            <router-link v-if="message.data.type == 'rate'" :to="'/rates/all'">
+
+            <!-- <router-link v-if="message.data.type == null" >
               <h3>{{ message.data.title }}</h3>
               <p>{{ message.data.body }}</p>
 
-              <!-- @click="DeleteNotification(message.id)" -->
+              
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
                 @click="NotificationsReaded(message.id)">
                 <i class="fas fa-check-double"></i>
               </div>
-            </router-link>
+            </router-link> -->
+            <!-- start :: rate -->
+            <!-- <router-link v-if="message.data.type == 'rate'" :to="'/rates/all'">
+              <h3>{{ message.data.title }}</h3>
+              <p>{{ message.data.body }}</p>
+
+              
+              <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link> -->
             <!-- End :: rate -->
 
             <!-- start :: contact -->
-            <router-link v-if="message.data.type == 'contact'" :to="'/contact-messages/all'">
+            <!-- <router-link v-if="message.data.type == 'contact'" :to="'/contact-messages/all'">
               <h3>{{ message.data.title }}</h3>
               <p>{{ message.data.body }}</p>
 
-              <!-- @click="DeleteNotification(message.id)" -->
+              
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
                 @click="NotificationsReaded(message.id)">
                 <i class="fas fa-check-double"></i>
               </div>
-            </router-link>
+            </router-link> -->
             <!-- End :: contact -->
 
             <!-- start :: users -->
-            <router-link v-if="message.data.type == 'users'" :to="'/clients/all'">
+            <!-- <router-link v-if="message.data.type == 'users'" :to="'/clients/all'">
               <h3>{{ message.data.title }}</h3>
               <p>{{ message.data.body }}</p>
 
-              <!-- @click="DeleteNotification(message.id)" -->
+              
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
                 @click="NotificationsReaded(message.id)">
                 <i class="fas fa-check-double"></i>
               </div>
-            </router-link>
+            </router-link> -->
             <!-- End :: users -->
 
             <!-- start :: advertisement -->
-            <router-link v-if="message.data.type == 'advertisement'" :to="'/advertisements/all'">
+            <!-- <router-link v-if="message.data.type == 'advertisement'" :to="'/advertisements/all'">
               <h3>{{ message.data.title }}</h3>
               <p>{{ message.data.body }}</p>
 
-              <!-- @click="DeleteNotification(message.id)" -->
+              
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
                 @click="NotificationsReaded(message.id)">
                 <i class="fas fa-check-double"></i>
               </div>
-            </router-link>
+            </router-link> -->
             <!-- End :: advertisement -->
 
             <!-- start :: subscription -->
-            <!-- <router-link  :to="'chat/show/' + message.data.id"> -->
-            <div v-if="message.data.type == 'subscription'">
+            <div >
               <h3>{{ message.data.title }}</h3>
               <p>{{ message.data.body }}</p>
               <div v-if="message.id" :class="{ 'read': message.is_read == 1 }" class="delete_notification"
